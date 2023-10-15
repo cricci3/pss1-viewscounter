@@ -1,4 +1,4 @@
 firebase_admin
-pytest
+pytest==7.4.2
 prospector
 bandit
