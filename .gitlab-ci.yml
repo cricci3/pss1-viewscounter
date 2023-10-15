@@ -28,7 +28,7 @@ build:
 verify:
   stage: verify
   script:
-    - prospector  # Esegui l'analisi statica con Prospector
+    - prospector --output=prospector.json # Esegui l'analisi statica con Prospector
     - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
 
   artifacts:
