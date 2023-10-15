@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conteggio Utenti</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .result-box {
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .result-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="result-box">
+            <h1 class="result-title">Conteggio Utenti</h1>
+            <form method="POST" class="text-center">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Nome Utente" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Incrementa Conteggio</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

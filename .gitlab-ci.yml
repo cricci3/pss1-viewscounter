@@ -1,0 +1,9 @@
+image: python:3.9
+
+stages:
+  - unit-test
+
+unittest:
+  stage: unit-test
+  script:
+    - pytest tests/test_unit.py
