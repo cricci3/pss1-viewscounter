@@ -2,3 +2,4 @@ firebase_admin
 pytest==7.4.2
 prospector
 bandit
+setuptools
