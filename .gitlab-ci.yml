@@ -1,15 +1,21 @@
-image: python:3.9
+image: python:latest
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
 
 stages:
   - build
   - unit-test
 
-variables:
-  VIRTUAL_ENV: "/venv"  # Modifica il percorso dell'ambiente virtuale in base alla tua configurazione
-
 before_script:
-  - python -m venv $VIRTUAL_ENV
-  - source $VIRTUAL_ENV/bin/activate
+  - python --version ; pip --version  # For debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
 
 build:
   stage: build
@@ -19,7 +25,6 @@ build:
 unit-test:
   stage: unit-test
   script:
-    - source $VIRTUAL_ENV/bin/activate
+    - source venv/bin/activate  # Assicurati di attivare l'ambiente virtuale "venv"
     - which pytest
     - pytest tests/test_unit.py
-
