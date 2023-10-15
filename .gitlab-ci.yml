@@ -28,12 +28,12 @@ build:
 verify:
   stage: verify
   script:
-    - prospector --output=prospector.json # Esegui l'analisi statica con Prospector
+    - prospector # Esegui l'analisi statica con Prospector
     - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
 
   artifacts:
     reports:
-      codequality: prospector.json  # Salva il report di Prospector come artifact
+      codequality: tests/prospector.json  # Salva il report di Prospector come artifact
 
 unit-test:
   stage: unit-test
