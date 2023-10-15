@@ -25,4 +25,5 @@ build:
 unit-test:
   stage: unit-test
   script:
+    - pip install pytest
     - pytest tests/test_unit.py
