@@ -21,26 +21,19 @@ before_script:
 build:
   stage: build
   script:
-    - python -m venv venv  # Crea l'ambiente virtuale "venv"
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
-
 verify:
   stage: verify
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
-    - prospector --output=json  # Esegui l'analisi statica con Prospector in formato JSON
+    - source venv/bin/activate
+    - prospector  # Esegui l'analisi statica con Prospector
     - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
-  artifacts:
-    paths:
-      - prospector.json  # Salva il report di Prospector come artifact
-
 unit-test:
   stage: unit-test
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_unit.py
-
 integration-test:
   stage: integration-test
   script:
