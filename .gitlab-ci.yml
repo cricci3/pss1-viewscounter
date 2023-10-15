@@ -11,6 +11,7 @@ cache:
 stages:
   - build
   - unit-test
+  - integration-test
 
 before_script:
   - python --version ; pip --version  # For debugging
@@ -27,3 +28,8 @@ unit-test:
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_unit.py
+integration-test:
+  stage: integration-test
+  script:
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
+    - pytest tests/test_integration.py
