@@ -13,18 +13,18 @@ stages:
 
 before_script:
   - python --version ; pip --version  # For debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
 
 build:
   stage: build
   script:
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
 
 unit-test:
   stage: unit-test
   script:
-    - source venv/bin/activate  # Attiva nuovamente l'ambiente virtuale "venv"
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install pytest
     - pytest tests/test_unit.py
