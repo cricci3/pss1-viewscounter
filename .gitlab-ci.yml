@@ -10,6 +10,7 @@ cache:
 
 stages:
   - build
+  - verify
   - unit-test
   - integration-test
 
@@ -22,6 +23,16 @@ build:
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
+verify:
+  stage: verify
+  script:
+    - source venv/bin/activate
+    - prospector  # Esegui l'analisi statica con Prospector
+    - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
+
+  artifacts:
+    reports:
+      codequality: prospector.json  # Salva il report di Prospector come artifact
 
 unit-test:
   stage: unit-test
