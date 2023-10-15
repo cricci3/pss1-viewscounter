@@ -1,9 +1,14 @@
+
 image: python:3.9
-
 stages:
+  - build
   - unit-test
-
-unittest:
+build:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+    - pip list
+unit-test:
   stage: unit-test
   script:
     - pytest tests/test_unit.py
