@@ -6,7 +6,7 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/
+    - venv/  # Aggiungi l'ambiente virtuale alla cache
 
 stages:
   - build
@@ -15,32 +15,35 @@ stages:
   - integration-test
 
 before_script:
-  - python --version ; pip --version
+  - python --version ; pip --version  # For debugging
   - pip install virtualenv
-  - python -m venv venv
-  - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
 
 build:
   stage: build
   script:
+    - python -m venv venv  # Crea l'ambiente virtuale "venv"
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
 
 verify:
   stage: verify
   script:
-    - prospector # Esegui l'analisi statica con Prospector
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
+    - prospector --output=json  # Esegui l'analisi statica con Prospector in formato JSON
     - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
 
   artifacts:
-    reports:
-      codequality: tests/prospector.json  # Salva il report di Prospector come artifact
+    paths:
+      - prospector.json  # Salva il report di Prospector come artifact
 
 unit-test:
   stage: unit-test
   script:
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_unit.py
 
 integration-test:
   stage: integration-test
   script:
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_integration.py
