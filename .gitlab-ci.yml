@@ -31,7 +31,6 @@ verify:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - prospector --output=json  # Esegui l'analisi statica con Prospector in formato JSON
     - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
-
   artifacts:
     paths:
       - prospector.json  # Salva il report di Prospector come artifact
