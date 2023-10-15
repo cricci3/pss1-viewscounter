@@ -17,7 +17,7 @@ def get_counter(name):
     try:
         username_ref = db.reference('users/' + name)
         return username_ref.child('counter').get()
-    except Exception as e:
+    except Exception:
         return -1
 
 
@@ -26,5 +26,5 @@ def increment_counter(name):
         username_ref = db.reference('users/' + name)
         username_ref.child('counter').transaction(lambda current_value: current_value + 1 if current_value else 1)
         return True
-    except Exception as e:
+    except Exception:
         return False
