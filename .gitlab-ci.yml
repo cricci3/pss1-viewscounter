@@ -6,26 +6,22 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/  # Aggiungi l'ambiente virtuale alla cache
+    - venv/
 
 stages:
   - build
-  - unit-test
+  - test
 
 before_script:
-  - python --version ; pip --version  # For debugging
-  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
 
 build:
   stage: build
   script:
-    - virtualenv venv
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
 
 unit-test:
-  stage: unit-test
+  stage: test
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
-    - pip install pytest
     - pytest tests/test_unit.py
