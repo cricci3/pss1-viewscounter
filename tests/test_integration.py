@@ -1,10 +1,8 @@
 from database import firebase
 from firebase_admin import db, credentials
 
-
+firebase.initialize_firebase()
 def test_right_counter():
-    firebase.initialize_firebase()
-
     # Inizializza il valore del contatore a un valore specifico (ad esempio, 5)
     username_counter = db.reference('users/utente_prova').child('counter').get()
 
@@ -14,8 +12,6 @@ def test_right_counter():
 
 # Test per incremento
 def test_increment_counter():
-    firebase.initialize_firebase()
-
     # Inizializza il valore del contatore a un valore specifico (ad esempio, 5)
     username_ref = db.reference('users/damiano')
     username_ref.child('counter').set(5)
