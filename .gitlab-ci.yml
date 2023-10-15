@@ -25,5 +25,6 @@ build:
 unit-test:
   stage: unit-test
   script:
+    - source venv/bin/activate  # Attiva nuovamente l'ambiente virtuale "venv"
     - pip install pytest
     - pytest tests/test_unit.py
