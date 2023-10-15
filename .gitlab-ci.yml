@@ -19,4 +19,7 @@ build:
 unit-test:
   stage: unit-test
   script:
+    - source $VIRTUAL_ENV/bin/activate
+    - which pytest
     - pytest tests/test_unit.py
+
