@@ -2,6 +2,8 @@ image: python:latest
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  TWINE_USERNAME: $TWINE_USERNAME
+  TWINE_PASSWORD: $TWINE_PASSWORD
 
 cache:
   paths:
@@ -47,9 +49,6 @@ package:
     - python setup.py sdist bdist_wheel
 release:
   stage: release
-  variables:
-    TWINE_USERNAME: $TWINE_USERNAME
-    TWINE_PASSWORD: $TWINE_PASSWORD
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - twine upload dist/*
