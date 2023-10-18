@@ -50,7 +50,7 @@ package:
 release:
   stage: release
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
+    - source venv/bin/activate
+    - ls dist/  # Verifica il contenuto della cartella dist
     - twine upload dist/*
-
 
