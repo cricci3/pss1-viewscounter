@@ -12,6 +12,7 @@ stages:
   - build
   - verify
   - unit-test
+  - integration-test
   - package
 
 before_script:
@@ -33,11 +34,13 @@ unit-test:
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_unit.py
-
+integration-test:
+  stage: integration-test
+  script:
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
+    - pytest tests/test_integration.py
 package:
   stage: package
-  only:
-    - tags
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - python setup.py sdist bdist_wheel
