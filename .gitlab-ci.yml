@@ -53,9 +53,4 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - echo "[pypi]" > ~/.pypirc
-    - echo "repository = https://upload.pypi.org/legacy/" >> ~/.pypirc
-    - echo "username = __token__" >> ~/.pypirc
-    - echo "password = $PYPI_PASSWORD" >> ~/.pypirc
-    - cat ~/.pypirc  # Stampa il contenuto del file .pypirc per scopi di debug
-    - twine upload dist/*
+    - TWINE_PASSWORD=${CI_JOB_TAKEN} TWINE_USERNAME=pipeline python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
