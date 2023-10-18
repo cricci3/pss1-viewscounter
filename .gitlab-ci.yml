@@ -13,6 +13,7 @@ stages:
   - verify
   - unit-test
   - integration-test
+  - package
 
 before_script:
   - python --version ; pip --version  # For debugging
@@ -38,3 +39,9 @@ integration-test:
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_integration.py
+package:
+  stage: package
+  only:
+    - tags
+  script:
+    - python setup.py sdist bdist_wheel
