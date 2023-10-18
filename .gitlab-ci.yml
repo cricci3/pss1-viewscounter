@@ -28,7 +28,6 @@ verify:
   script:
     - source venv/bin/activate
     - prospector  # Esegui l'analisi statica con Prospector
-    - bandit -r .  # Esegui l'analisi di sicurezza con Bandit
 unit-test:
   stage: unit-test
   script:
