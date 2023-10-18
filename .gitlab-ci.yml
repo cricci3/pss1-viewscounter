@@ -2,8 +2,6 @@ image: python:latest
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  PYPI_USERNAME: __token__
-  PYPI_PASSWORD: $PYPI_PASSWORD
 
 cache:
   paths:
