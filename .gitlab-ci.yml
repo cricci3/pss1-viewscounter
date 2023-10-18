@@ -52,6 +52,8 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - ls dist/  # Verifica il contenuto della cartella dist
+    - echo "[pypi]" > ~/.pypirc
+    - echo "repository = https://upload.pypi.org/legacy/" >> ~/.pypirc
+    - echo "username = $PYPI_USERNAME" >> ~/.pypirc
+    - echo "password = $PYPI_PASSWORD" >> ~/.pypirc
     - twine upload dist/*
-
