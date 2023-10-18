@@ -47,6 +47,7 @@ package:
   script:
     - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - python setup.py sdist bdist_wheel
+    - ls dist/
 release:
   stage: release
   script:
