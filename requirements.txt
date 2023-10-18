@@ -4,3 +4,4 @@ prospector
 bandit
 setuptools
 wheel
+twine
