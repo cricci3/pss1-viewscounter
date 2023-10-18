@@ -44,4 +44,5 @@ package:
   only:
     - tags
   script:
+    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - python setup.py sdist bdist_wheel
