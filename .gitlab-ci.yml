@@ -53,4 +53,9 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - TWINE_PASSWORD=${CI_JOB_TAKEN} TWINE_USERNAME=hyperdem python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+    - echo "[pypi]" > ~/.pypirc
+    - echo "username = $PYPI_USERNAME" >> ~/.pypirc
+    - echo "password = $PYPI_PASSWORD" >> ~/.pypirc
+    - cat ~/.pypirc  # Stampa il contenuto del file .pypirc per scopi di debug
+    - twine upload dist/*
+
