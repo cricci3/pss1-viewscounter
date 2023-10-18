@@ -2,7 +2,7 @@ image: python:latest
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  TWINE_USERNAME: $PYPI_USERNAME
+  TWINE_USERNAME: __token__
   TWINE_PASSWORD: $PYPI_PASSWORD
 
 cache:
