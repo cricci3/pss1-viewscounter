@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-setup(name='prova',
+setup(name='provapipeline2023',
       version='0.1.0',
       description='Some Python package',
       author='Me',
@@ -12,3 +12,4 @@ setup(name='prova',
             "database": "./database",
       },
       zip_safe=False)
+
