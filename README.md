@@ -25,10 +25,10 @@ Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento 
 
 ### Prerequisiti
 In questa sezione vengono elencati alcuni prerequisiti che vengono runnati prima dello script con stages elencati sopra.
-1 - Per eseguire la pipeline, viene usata come immagine python la seguente
+- Per eseguire la pipeline, viene usata come immagine python la seguente
 `image: python:latest`
-2 - Viene definita una variabile globale 'PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"' per definire il path della cache. L'uso della cache in una pipeline è una pratica cruciale per migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Aiuta a ottimizzare le risorse e a garantire un flusso di lavoro più agevole.
-3 - attivazione dell'ambiente virtuale per isolere tutte le operazioni Python all'interno del progetto, consentendo di installare e gestire le dipendenze specifiche senza interferire con il sistema globale.
+- Viene definita una variabile globale 'PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"' per definire il path della cache. L'uso della cache in una pipeline è una pratica cruciale per migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Aiuta a ottimizzare le risorse e a garantire un flusso di lavoro più agevole.
+- attivazione dell'ambiente virtuale per isolere tutte le operazioni Python all'interno del progetto, consentendo di installare e gestire le dipendenze specifiche senza interferire con il sistema globale.
 
 ### Build
 La compilazione del progetto avviene mediante il comando seguente:
