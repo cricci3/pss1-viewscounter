@@ -1,4 +1,31 @@
-# Views Counter
+# Assignment 1 - Processo e Sviluppo del Software
+***
+
+## Membri
+- Ficara Damiano (919386)
+- Ricci Claudio (918956)
+- Toli Emilio ()
+***
+
+## Introduzione
+Il primo Assignment del corso di Processo e Sviluppo del Software si pone come obiettivo la realizzazione di una Pipeline CI/CD che automatizzi il processo di manutenzione di un'applicazione seguendo l'insieme di pratiche DEVOPS, mirando ad abbreviare il ciclo di vita di sviluppo di un sistema e soprattutto fornendo una consegna continua di software qualitativamente elevato.
+***
+
+## Applicazione
+L'obiettivo principale dell'assignment non è l'implementazione dell'applicazione in sé. Pertanto, è stata scelta la realizzazione di un sistema estremamente semplice denominato "Views Counter". Questo sistema fa uso del database Firebase per tenere traccia del numero di visualizzazioni effettuate da ciascun utente all'interno del sistema.
+
+All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome. L'applicazione verifica quindi se tale nome è già presente nel database. Nel caso affermativo, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato. Se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
+***
+
+## Stages
+Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento dell'assignment:
+- Build
+- Verify
+- Unit-test
+- Integration-test
+- Package
+- Release
+- Deploy
 
 1. Project's Title
 This is the name of the project. It describes the whole project in one sentence, and helps people understand what the main goal and aim of the project is.
