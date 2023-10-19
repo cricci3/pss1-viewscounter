@@ -53,7 +53,12 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - twine upload --username __token__ --password $PYPI_PASSWORD --verbose dist/*
+    - echo "[pypi]" > ~/.pypirc
+    - echo "username = __token__" >> ~/.pypirc
+    - echo "password = $PYPI_PASSWORD" >> ~/.pypirc
+    - cat ~/.pypirc  # Stampa il contenuto del file .pypirc per scopi di debug
+    - twine upload dist/*
+
 
 
 
