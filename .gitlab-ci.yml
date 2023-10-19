@@ -53,11 +53,6 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - echo "[distutils]" > ~/.pypirc
-    - echo "index-servers = pypi" >> ~/.pypirc
-    - echo "[pypi]" >> ~/.pypirc
-    - echo "repository = https://upload.pypi.org/legacy/" >> ~/.pypirc
-    - echo "username = $PYPI_USERNAME" >> ~/.pypirc
-    - echo "password = $PYPI_PASSWORD" >> ~/.pypirc
-    - twine upload dist/*
+    - twine upload --username __token__ --password $PYPI_PASSWORD dist/*
+
 
