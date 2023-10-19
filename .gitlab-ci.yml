@@ -53,6 +53,7 @@ release:
   stage: release
   script:
     - source venv/bin/activate
-    - twine upload --username __token__ --password $PYPI_PASSWORD dist/*
+    - twine upload --username __token__ --password $PYPI_PASSWORD --verbose dist/*
+
 
 
