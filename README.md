@@ -42,7 +42,7 @@ La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire
 ### Unit-test
 Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema. In questo contesto, è stato creato un file denominato "test_unit.py" contenente una funzione di test. Questa funzione verifica il collegamento al database, restituendo 'True' se la connessione è attiva.\
 Per eseguire il test di unità all'interno di una pipeline, è possibile utilizzare il seguente comando:\
-'pytest tests/test_unit.py'
+'pytest tests/test_unit.py'\
 Questo comando fa uso della libreria di testing pytest per eseguire il test specifico contenuto nel file "test_unit.py". Il risultato dell'esecuzione fornirà un responso sul corretto funzionamento del collegamento al database. Se il test restituisce 'True', indica che il collegamento è attivo, confermando il successo del test e la validità della connessione al database.
 
 
