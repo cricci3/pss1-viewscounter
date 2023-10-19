@@ -51,7 +51,7 @@ release:
     - source venv/bin/activate
     - echo "[pypi]" > ~/.pypirc
     - echo "username = __token__" >> ~/.pypirc
-    - echo "password = pypi-AgEIcHlwaS5vcmcCJDMxZWQyZTEzLTRiMzItNGJmZS05OGZiLTU5MmI2OTk2NTQ5MgACKlszLCI0M2IxOGI3Yi03MjA4LTQ4YmMtOWUwMC0yZmYzMDJhYjc4NDUiXQAABiBAurrrvGNd-JpEl4yUhspegrrmBbeu0oX-fbh3sQgS" >> ~/.pypirc
+    - echo "password = pypi-AgEIcHlwaS5vcmcCJDQwNzM5NjZhLTA5YmItNGNiNy1iNDRkLTE3ZDJiMDdmZmUyOQACKlszLCI4ODVmMjZjYy1iN2Y0LTQ5ZTQtYWQ1YS0yZWRlZjc5Zjk5NTkiXQAABiBOy9_aBQEAFXQNjaZ3vZEiOpZZPAcX7HUFB4SWqWXFDQ" >> ~/.pypirc
     - cat ~/.pypirc  # Stampa il contenuto del file .pypirc per scopi di debug
     - twine upload dist/*
 
