@@ -24,11 +24,10 @@ Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento 
 - Deploy
 
 ### Prerequisiti
-In questa sezione vengono elencati alcuni prerequisiti che vengono runnati prima dello script con stages elencati sopra.
-- Per eseguire la pipeline, viene usata come immagine python la seguente
-`image: python:latest`
-- Viene definita una variabile globale 'PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"' per definire il path della cache. L'uso della cache in una pipeline è una pratica cruciale per migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Aiuta a ottimizzare le risorse e a garantire un flusso di lavoro più agevole.
-- attivazione dell'ambiente virtuale per isolere tutte le operazioni Python all'interno del progetto, consentendo di installare e gestire le dipendenze specifiche senza interferire con il sistema globale.
+In questa sezione, vengono forniti alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
+- La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: 'image: python:latest'.
+- Viene definita una variabile globale denominata 'PIP_CACHE_DIR', il cui percorso è impostato su "$CI_PROJECT_DIR/.cache/pip". L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
+- Inoltre, viene attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto. Questo ambiente consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
 
 ### Build
 La compilazione del progetto avviene mediante il comando seguente:
@@ -40,5 +39,11 @@ La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire
 - 'prospector', il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice.
 - 'bandit' strumento di analisi statica progettato specificamente per la ricerca di vulnerabilità di sicurezza nel codice Python. Esegue un controllo approfondito del codice alla ricerca di possibili debolezze e vulnerabilità, segnalando qualsiasi potenziale problema di sicurezza che richiede attenzione.
 
+### Unit-test
+Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema. In questo contesto, è stato creato un file denominato "test_unit.py" contenente una funzione di test. Questa funzione verifica il collegamento al database, restituendo 'True' se la connessione è attiva.\
+Per eseguire il test di unità all'interno di una pipeline, è possibile utilizzare il seguente comando:\
+'pytest tests/test_unit.py'
+Questo comando fa uso della libreria di testing pytest per eseguire il test specifico contenuto nel file "test_unit.py". Il risultato dell'esecuzione fornirà un responso sul corretto funzionamento del collegamento al database. Se il test restituisce 'True', indica che il collegamento è attivo, confermando il successo del test e la validità della connessione al database.
 
 
+### Integration-test
