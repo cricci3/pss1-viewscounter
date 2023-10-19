@@ -23,9 +23,12 @@ Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento 
 - Release
 - Deploy
 
-### Definizioni Globali
-Per eseguire la pipeline, viene usata come immagine python la seguente
+### Prerequisiti
+In questa sezione vengono elencati alcuni prerequisiti che vengono runnati prima dello script con stages elencati sopra.
+1 - Per eseguire la pipeline, viene usata come immagine python la seguente
 `image: python:latest`
+2 - Viene definita una variabile globale 'PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"' per definire il path della cache. L'uso della cache in una pipeline è una pratica cruciale per migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Aiuta a ottimizzare le risorse e a garantire un flusso di lavoro più agevole.
+3 - attivazione dell'ambiente virtuale per isolere tutte le operazioni Python all'interno del progetto, consentendo di installare e gestire le dipendenze specifiche senza interferire con il sistema globale.
 
 ### Build
 La compilazione del progetto avviene mediante il comando seguente:
@@ -34,7 +37,8 @@ Questo metodo consente di semplificare il processo di installazione delle librer
 
 ### Verify
 La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. I comandi eseguiti sono:
-'prospector'
-e
-'bandit'
+- 'prospector', il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice.
+- 'bandit' strumento di analisi statica progettato specificamente per la ricerca di vulnerabilità di sicurezza nel codice Python. Esegue un controllo approfondito del codice alla ricerca di possibili debolezze e vulnerabilità, segnalando qualsiasi potenziale problema di sicurezza che richiede attenzione.
+
+
 
