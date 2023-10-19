@@ -19,31 +19,27 @@ stages:
 before_script:
   - python --version ; pip --version  # For debugging
   - pip install virtualenv
+  - source venv/bin/activate
 
 build:
   stage: build
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pip install -r requirements.txt
 verify:
   stage: verify
   script:
-    - source venv/bin/activate
     - prospector  # Esegui l'analisi statica con Prospector
 unit-test:
   stage: unit-test
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_unit.py
 integration-test:
   stage: integration-test
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - pytest tests/test_integration.py
 package:
   stage: package
   script:
-    - source venv/bin/activate  # Attiva l'ambiente virtuale "venv"
     - python setup.py sdist bdist_wheel
     - ls dist/
   artifacts:
