@@ -80,7 +80,7 @@ In particolare, nella pipeline, sono presenti le seguenti specifiche:
 
 - `cat ~/.pypirc` : è l'istruzione che consente di stampare il contenuto del file per fini di debug
 
-- `twine upload dist/*` : questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di Package, i quali sono stati caricati nella directory `dist/`
+- `twine upload dist/*` : questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di Package, i quali sono stati caricati nella directory `dist/`. Viene utilizzato "Twine", che è uno strumento di Python per facilitare l'upload di pacchetti verso repository di pacchetti come PyPI
 
 
 
