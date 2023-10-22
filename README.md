@@ -42,9 +42,8 @@ La compilazione del progetto avviene mediante il comando seguente:\\
 Questo metodo consente di semplificare il processo di installazione delle librerie esterne richieste per l'esecuzione dell'applicazione. Al posto di elencare manualmente tutte le librerie e le rispettive versioni, vengono specificate nel file di testo "requirements.txt" le librerie necessarie. Se a fianco del nome della libreria non è specificata nessuna versione, significa che si prende quella più recente.
 
 ### Verify
-La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. I comandi eseguiti sono:
+La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. Al momento della prima scadenza dell'assignment, non è ancora stato scritto nella pipeline il comando di `bandit`, quindi il solo comando eseguito è:
 - `prospector`, il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice.
-- `bandit` strumento di analisi statica progettato specificamente per la ricerca di vulnerabilità di sicurezza nel codice Python. Esegue un controllo approfondito del codice alla ricerca di possibili debolezze e vulnerabilità, segnalando qualsiasi potenziale problema di sicurezza che richiede attenzione.
 
 ### Unit-test
 Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema. In questo contesto, è stato creato un file denominato *test_unit.py* contenente una funzione di test. Questa funzione verifica il collegamento al database, restituendo `True` se la connessione è attiva.\\
