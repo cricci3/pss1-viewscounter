@@ -40,6 +40,8 @@ integration-test:
   stage: integration-test
   script:
     - pytest tests/test_integration.py  # Esegui i test di integrazione
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
 
 package:
   stage: package
@@ -48,6 +50,8 @@ package:
   artifacts:
     paths:
       - dist/  # Archivia i file di distribuzione nella directory "dist/"
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
 
 release:
   stage: release
