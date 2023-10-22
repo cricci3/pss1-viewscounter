@@ -17,10 +17,10 @@ stages:
   - release
 
 before_script:
-  - python --version ; pip --version  # Mostra la versione di Python e pip per scopi di debug
-  - pip install virtualenv  # Installa virtualenv
-  - source venv/bin/activate  # Attiva l'ambiente virtuale
-
+  - python --version
+  - pip --version
+  - python -m venv venv 
+  - source venv/bin/activate
 build:
   stage: build
   script:
