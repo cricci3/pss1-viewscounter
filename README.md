@@ -63,6 +63,31 @@ L'ultima operazione consiste nel verificare che il contatore sia stato increment
 ### Package-test
 Il package test è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
 E' possibile generare due tipi di pacchetti grazie al comando `python setup.py sdist bdist_wheel`: "sdist" che contiene il codice sorgente del progetto, mentre "bdist_wheel" permette di installare il software su sistemi Python senza doverlo compilare. 
-Grazie a `ls dist/` si può eseguire la verifica dei pacchetti generati e che siano disponibili per l'utilizzo, grazie alla directory "dist/", dove questi dovrebbero essere contenuti.
 
-Infine la sezione "artifacts" permette di specificare che la directory indicata (nel caso specifico "dist/) può essere archiviata ed utilizzata per la distribuzione in pacchetti, oppure per l'utilizzo negli stage successivi della pipeline. 
+Infine la sezione "artifacts" permette di specificare che la directory indicata (nel caso specifico `dist/`) può essere archiviata ed utilizzata per la distribuzione in pacchetti, oppure per l'utilizzo negli stage successivi della pipeline. 
+
+### Release-test
+Il release-test è una fase che ha lo scopo di verificare la qualità e la conformità ai requisiti del software prima del rilascio agli utenti finali.
+In particolare, nella pipeline, sono presenti le seguenti specifiche:
+
+- `source venv/bin/activate`: è l'istruzione che permette di attivare l'ambiente virtuale, con l'intenzione di evitare conflitti con gli altri progetti
+
+- ` echo "[pypi]" > ~/.pypirc` : permette la creazione del file pypirc, che è utilizzato per la lettura del nome utente e della password necessari per l'autenticazione a PiPI, al fine di effettuare l'upload dei pacchetti Python.
+
+- `echo "username = __token__" >> ~/.pypirc` : è l'istruzione utilizzata per impostare lo username nel file pypirc (impostato come "token").
+
+- `echo "password = $TWINE_TOKEN" >> ~/.pypirc`: rappresenta l'istruzione per l'impostazione della password nel file pypirc (fornita dalla variabile $TWINE_TOKEN).
+
+- `cat ~/.pypirc` : è l'istruzione che consente di stampare il contenuto del file per fini di debug
+
+- `twine upload dist/*` : questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di Package, i quali sono stati caricati nella directory `dist/`
+
+
+
+
+
+
+
+
+
+
