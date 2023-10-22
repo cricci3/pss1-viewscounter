@@ -6,7 +6,7 @@ https://gitlab.com/bicoccaprojects/2023_assignment1_viewscounter
 ## Membri
 - Ficara Damiano (919386)
 - Ricci Claudio (918956)
-- Toli Emilio ()
+- Toli Emilio (920337)
 
 ## Note
 Questo README si pone l'obiettivo di documentare il lavoro svolto fino alla prima consegna. Verranno quindi descritti gli stages di: Build, Verify, Unit-test, Integration-test, Package e Release.
