@@ -59,3 +59,10 @@ Entrando nel contesto, l'integration test esegue due principali controlli: il pr
 
 Il secondo test, sempre dopo aver inizializzato l'istanza di Firebase, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione "firebase.increment_counter('damiano')" che restituisce "true" in caso di riuscita dell'operazione.
 L'ultima operazione consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
+
+### Package-test
+Il package test è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
+E' possibile generare due tipi di pacchetti grazie al comando `python setup.py sdist bdist_wheel`: "sdist" che contiene il codice sorgente del progetto, mentre "bdist_wheel" permette di installare il software su sistemi Python senza doverlo compilare. 
+Grazie a `ls dist/` si può eseguire la verifica dei pacchetti generati e che siano disponibili per l'utilizzo, grazie alla directory "dist/", dove questi dovrebbero essere contenuti.
+
+Infine la sezione "artifacts" permette di specificare che la directory indicata (nel caso specifico "dist/) può essere archiviata ed utilizzata per la distribuzione in pacchetti, oppure per l'utilizzo negli stage successivi della pipeline. 
