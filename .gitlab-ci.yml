@@ -29,6 +29,8 @@ verify:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
+    - bandit -r application/app.py databse/firebase.py --exclude tests
+
 unit-test:
   stage: unit-test
   script:
