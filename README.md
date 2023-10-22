@@ -9,7 +9,7 @@ https://gitlab.com/bicoccaprojects/2023_assignment1_viewscounter
 - Toli Emilio ()
 
 ## Note
-Questo README si pone l'obiettivo di documentare il lavoro svolto fino alla prima consegna.
+Questo README si pone l'obiettivo di documentare il lavoro svolto fino alla prima consegna. Verranno quindi descritti gli stages di: Build, Verify, Unit-test, Integration-test, Package e Release.
 
 ## Introduzione
 Il primo Assignment del corso di Processo e Sviluppo del Software si pone come obiettivo la realizzazione di una Pipeline CI/CD che automatizzi il processo di manutenzione di un'applicazione seguendo l'insieme di pratiche DEVOPS, mirando ad abbreviare il ciclo di vita di sviluppo di un sistema e soprattutto fornendo una consegna continua di software qualitativamente elevato.
