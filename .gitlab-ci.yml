@@ -1,15 +1,15 @@
-image: python:latest
+image: python:latest  # Utilizza l'immagine Docker Python più recente
 
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"  # Definisci una variabile per la directory di cache di pip
 
 cache:
   paths:
-    - .cache/pip
+    - .cache/pip  # Aggiungi la directory di cache di pip alla cache
     - venv/  # Aggiungi l'ambiente virtuale alla cache
 
 stages:
-  - build
+  - build  # Definisci le fasi del processo CI/CD
   - verify
   - unit-test
   - integration-test
@@ -17,44 +17,45 @@ stages:
   - release
 
 before_script:
-  - python --version ; pip --version  # For debugging
-  - pip install virtualenv
-  - source venv/bin/activate
+  - python --version ; pip --version  # Mostra la versione di Python e pip per scopi di debug
+  - pip install virtualenv  # Installa virtualenv
+  - source venv/bin/activate  # Attiva l'ambiente virtuale
 
 build:
   stage: build
   script:
-    - pip install -r requirements.txt
+    - pip install -r requirements.txt  # Installa le dipendenze dal file requirements.txt
+
 verify:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
+
 unit-test:
   stage: unit-test
   script:
-    - pytest tests/test_unit.py
+    - pytest tests/test_unit.py  # Esegui i test unitari
+
 integration-test:
   stage: integration-test
   script:
-    - pytest tests/test_integration.py
+    - pytest tests/test_integration.py  # Esegui i test di integrazione
+
 package:
   stage: package
   script:
-    - python setup.py sdist bdist_wheel
-    - ls dist/
+    - python setup.py sdist bdist_wheel  # Crea il pacchetto sorgente e il pacchetto bdist_wheel
   artifacts:
     paths:
-      - dist/
+      - dist/  # Archivia i file di distribuzione nella directory "dist/"
+
 release:
   stage: release
   script:
-    - source venv/bin/activate
-    - echo "[pypi]" > ~/.pypirc
-    - echo "username = __token__" >> ~/.pypirc
-    - echo "password = $TWINE_TOKEN" >> ~/.pypirc
-    - cat ~/.pypirc  # Stampa il contenuto del file .pypirc per scopi di debug
-    - twine upload dist/*
-
-
-
-
+    - source venv/bin/activate  # Attiva l'ambiente virtuale
+    - echo "[pypi]" > ~/.pypirc  # Crea un file di configurazione per PyPI
+    - echo "username = __token__" >> ~/.pypirc  # Specifica l'username come "__token__" per l'autenticazione PyPI
+    - echo "password = $TWINE_TOKEN" >> ~/.pypirc  # Specifica la password/token per l'autenticazione PyPI
+    - twine upload dist/*  # Carica i pacchetti su PyPI
+  only:
+  - master  # Esegui questa fase solo quando si fa push su master
