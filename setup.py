@@ -5,7 +5,8 @@ with open("README.md", "r") as f:
 
 author_emails = [
     'damianoficara@gmail.com',
-    # Aggiungi altre email se necessario
+    'c.ricci19@campus.unimib.it',
+    'emiliotoli21@gmail.com'
 ]
 
 setup(name='2023_assignemt1_viewscounter',
