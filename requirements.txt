@@ -6,3 +6,4 @@ setuptools
 wheel
 twine
 sphinx
+sphinx-rtd-theme
