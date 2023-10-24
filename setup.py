@@ -3,17 +3,12 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as f:
       long_description = f.read()
 
-author_emails = [
-    'damianoficara@gmail.com',
-    'c.ricci19@campus.unimib.it',
-    'emiliotoli21@gmail.com'
-]
 
 setup(name='2023_assignemt1_viewscounter',
       version='0.0.1',
       description='This assignment focuses on creating an application that counts and monitors user views',
       author='Team CED',
-      author_email=author_emails,
+      author_email='damianoficara@gmail.com,c.ricci19@campus.unimib.it,emiliotoli21@gmail.com',
       long_description=long_description,
       license='MIT',
       packages=["application", "database"],
