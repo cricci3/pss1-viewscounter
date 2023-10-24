@@ -15,7 +15,7 @@ stages:
   - integration-test
   - package
   - release
-  - pages
+  - docs
 
 before_script:
   - python --version
@@ -65,15 +65,11 @@ release:
   only:
   - main  # Esegui questa fase solo quando si fa push su main
 
-pages:
+docs:
   script:
-    - pip install sphinx sphinx-rtd-theme
-    - cd doc
-    - make html
-    - mv build/html/ ../public/
+    - pip install mkdocs
+    - mkdocs build
   artifacts:
     paths:
-      - public
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH 
+      - site/  # This is the output directory of MkDocs
 
