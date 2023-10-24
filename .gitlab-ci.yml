@@ -15,7 +15,6 @@ stages:
   - integration-test
   - package
   - release
-  - docs
 
 before_script:
   - python --version
@@ -65,13 +64,4 @@ release:
     - twine upload dist/*  # Carica i pacchetti su PyPI
   only:
   - main  # Esegui questa fase solo quando si fa push su main
-
-docs:
-  stage: docs
-  script:
-    - pip install mkdocs
-    - mkdocs build
-  artifacts:
-    paths:
-      - site/  # This is the output directory of MkDocs
 
