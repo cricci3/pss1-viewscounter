@@ -71,5 +71,5 @@ docs:
     - mkdocs build
   artifacts:
     paths:
-      - site/  # This is the output directory of MkDocs
+      - site/  # Directory di output di mkdocs
 
