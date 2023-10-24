@@ -66,10 +66,12 @@ release:
   - main  # Esegui questa fase solo quando si fa push su main
 
 docs:
+  stage: docs
   script:
     - pip install mkdocs
     - mkdocs build
   artifacts:
     paths:
       - site/  # Directory di output di mkdocs
-
+  only:
+  - branchDevelop 
