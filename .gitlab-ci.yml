@@ -15,7 +15,7 @@ stages:
   - integration-test
   - package
   - release
-  - docs
+  - pages
 
 before_script:
   - python --version
@@ -65,7 +65,7 @@ release:
   only:
   - main  # Esegui questa fase solo quando si fa push su main
 
-docs:
+pages:
   script:
     - pip install sphinx sphinx-rtd-theme
     - cd doc
