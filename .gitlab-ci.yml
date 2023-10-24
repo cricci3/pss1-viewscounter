@@ -30,6 +30,7 @@ verify:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
+    - bandit -r 2023_assignment1_viewscounter --exclude tests
 
 unit-test:
   stage: unit-test
