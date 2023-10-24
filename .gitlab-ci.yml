@@ -15,6 +15,7 @@ stages:
   - integration-test
   - package
   - release
+  - docs
 
 before_script:
   - python --version
@@ -63,3 +64,16 @@ release:
     - twine upload dist/*  # Carica i pacchetti su PyPI
   only:
   - main  # Esegui questa fase solo quando si fa push su main
+
+docs:
+  script:
+    - pip install sphinx sphinx-rtd-theme
+    - cd doc
+    - make html
+    - mv build/html/ ../public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH 
+
