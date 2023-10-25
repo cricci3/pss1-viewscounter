@@ -60,14 +60,14 @@ Entrando nel contesto, l'integration test esegue due principali controlli: il pr
 Il secondo test, sempre dopo aver inizializzato l'istanza di Firebase, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione "firebase.increment_counter('damiano')" che restituisce "true" in caso di riuscita dell'operazione.
 L'ultima operazione consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
 
-### Package-test
-Il package test è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
+### Package
+Il package è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
 E' possibile generare due tipi di pacchetti grazie al comando `python setup.py sdist bdist_wheel`: "sdist" che contiene il codice sorgente del progetto, mentre "bdist_wheel" permette di installare il software su sistemi Python senza doverlo compilare. 
 
 Infine la sezione "artifacts" permette di specificare che la directory indicata (nel caso specifico `dist/`) può essere archiviata ed utilizzata per la distribuzione in pacchetti, oppure per l'utilizzo negli stage successivi della pipeline. 
 
-### Release-test
-Il release-test è una fase che ha lo scopo di verificare la qualità e la conformità ai requisiti del software prima del rilascio agli utenti finali.
+### Release
+Il release è una fase che ha lo scopo di verificare la qualità e la conformità ai requisiti del software prima del rilascio agli utenti finali.
 In particolare, nella pipeline, sono presenti le seguenti specifiche:
 
 - `source venv/bin/activate`: è l'istruzione che permette di attivare l'ambiente virtuale, con l'intenzione di evitare conflitti con gli altri progetti
@@ -79,13 +79,3 @@ In particolare, nella pipeline, sono presenti le seguenti specifiche:
 - `echo "password = $TWINE_TOKEN" >> ~/.pypirc`: rappresenta l'istruzione per l'impostazione della password nel file pypirc (fornita dalla variabile $TWINE_TOKEN).
 
 - `twine upload dist/*` : questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di Package, i quali sono stati caricati nella directory `dist/`. Viene utilizzato "Twine", che è uno strumento di Python per facilitare l'upload di pacchetti verso repository di pacchetti come PyPI
-
-
-
-
-
-
-
-
-
-
