@@ -31,6 +31,7 @@ Di seguito vengono elencate le fasi che sono state implementate per lo svolgimen
 4. **Integration-test**
 5. **Package**
 6. **Release**
+7. **Docs**
 
 
 ### Prerequisiti
@@ -40,6 +41,8 @@ L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un
 - Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
 L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
 - Inoltre, viene attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto. Questo ambiente consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
+
+Tutti gli stages contengono un comando che indica che lo stage, e quindi la pipeline, deve essere eseguita solo quando ci si trova sul branch `main`. In questo modo ci siamo assicurati di non far partire la pipeline, e quindi di perdere minuti di utilizzo, durante l'esecuzione di modifiche su branch diversi dal principale.
 
 ### 1. Build
 La compilazione del progetto viene eseguita attraverso il seguente comando: `pip install -r requirements.txt`.
@@ -88,15 +91,20 @@ Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il f
 
 
 ### 6. Release
-Il release è una fase che ha lo scopo di verificare la qualità e la conformità ai requisiti del software prima del rilascio agli utenti finali.
-In particolare, nella pipeline, sono presenti le seguenti specifiche:
+Questa fase della pipeline è strettamente correlata alla fase precedente di "Package" in quanto, se nella fase di "Package" abbiamo preparato i pacchetti dell'applicazione, in questa fase li pubblichiamo su PyPI.
+I passi eseguiti da questo stage sono quattro:
+- `echo "[pypi]" > ~/.pypirc`, in questo passaggio viene creato un file di configurazione necessario per l'interazione con PyPI. Questo file conterrà le informazioni di autenticazione richieste per l'upload dei pacchetti Python su PyPI.
+- `echo "username = __token__" >> ~/.pypirc`, qui, all'interno del file _.pypirc_, specificiamo che l'username per l'autenticazione su PyPI è "token". Questo indica che l'autenticazione avviene tramite un token API anziché un nome utente e una password tradizionali.
+- `echo "password = $TWINE_TOKEN" >> ~/.pypirc`, inseriamo il valore del token API come password nel file _.pypirc_. Il valore del token è recuperato da una variabile globale, $TWINE_TOKEN, definita nelle impostazioni di GitLab. 
+- `twine upload dist/*`, questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di "Package" nella directory `dist/`. Viene utilizzato "Twine", che è uno strumento di Python per facilitare l'upload di pacchetti verso repository di pacchetti come PyPI
 
-- `source venv/bin/activate`: è l'istruzione che permette di attivare l'ambiente virtuale, con l'intenzione di evitare conflitti con gli altri progetti
+**Scelte architetturali di questo stage**
+Per eseguire questa fase, è stato necessario creare un account su PyPI. Al fine di rendere la pipeline più professionale e garantire la sicurezza dell'autenticazione, abbiamo optato per una configurazione basata su token API. PyPI consente a ciascun utente di generare un token API personale, eliminando la necessità di condividere le proprie informazioni di account. Questo approccio migliora la sicurezza e semplifica il processo di pubblicazione sul repository PyPI.
 
-- ` echo "[pypi]" > ~/.pypirc` : permette la creazione del file pypirc, che è utilizzato per la lettura del nome utente e della password necessari per l'autenticazione a PiPI, al fine di effettuare l'upload dei pacchetti Python.
+### 7. Docs
+Il progetto di sviluppo di software non è completo senza una documentazione adeguata. La documentazione fornisce agli sviluppatori, agli utenti e agli altri membri del team tutte le informazioni necessarie per comprendere, utilizzare ed estendere il software. La fase "docs" è dedicata a garantire che la documentazione sia sempre allineata con il codice sorgente e pronta per essere distribuita.
 
-- `echo "username = __token__" >> ~/.pypirc` : è l'istruzione utilizzata per impostare lo username nel file pypirc (impostato come "token").
-
-- `echo "password = $TWINE_TOKEN" >> ~/.pypirc`: rappresenta l'istruzione per l'impostazione della password nel file pypirc (fornita dalla variabile $TWINE_TOKEN).
-
-- `twine upload dist/*` : questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di Package, i quali sono stati caricati nella directory `dist/`. Viene utilizzato "Twine", che è uno strumento di Python per facilitare l'upload di pacchetti verso repository di pacchetti come PyPI
+Questa fase della pipeline è composta da diverse azioni:
+- `pip install mkdocs` la pipeline installa lo strumento MkDocs, uno strumento di generazione di documentazione che consente di creare facilmente documentazione basata su Markdown. Questo strumento sarà utilizzato per costruire la documentazione del progetto.
+- `mkdocs build --clean` utilizzato per generare la documentazione del progetto. Questo comando elabora i file Markdown presenti nel repository e crea una versione formattata della documentazione pronta per la distribuzione. L'opzione --clean assicura che la cartella di output sia ripulita da vecchi file inutili, garantendo che la nuova documentazione sia fresca e aggiornata.
+- Nella sezione degli artifacts, vengono specificati i file o le directory che devono essere conservati per un uso futuro. In particolare, viene conservato il file mkdocs.yaml, che è il file di configurazione principale di MkDocs. Questo file contiene le impostazioni e le informazioni necessarie per generare la documentazione.
