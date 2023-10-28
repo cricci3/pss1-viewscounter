@@ -77,10 +77,15 @@ Questo test esegue due principali controlli:
 L'ultima operazione di questo test consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
 
 ### 5. Package
-Il package è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
-E' possibile generare due tipi di pacchetti grazie al comando `python setup.py sdist bdist_wheel`: "sdist" che contiene il codice sorgente del progetto, mentre "bdist_wheel" permette di installare il software su sistemi Python senza doverlo compilare. 
+Durante la fase di Package, il codice sorgente viene trasformato in pacchetti, agevolando così la distribuzione di applicazioni e librerie. I pacchetti sono archivi che includono il codice sorgente e i file necessari all'installazione del software su vari sistemi e ambienti. Questo processo è fondamentale per semplificare la distribuzione e garantire che il software funzioni su diverse piattaforme.
 
-Infine la sezione "artifacts" permette di specificare che la directory indicata (nel caso specifico `dist/`) può essere archiviata ed utilizzata per la distribuzione in pacchetti, oppure per l'utilizzo negli stage successivi della pipeline. 
+Nella nostra pipeline viene eseguito questo comando `python setup.py sdist bdist_wheel`.\ Utilizziamo il file `setup.py` per creare pacchetti sorgente e pacchetti `bdist_wheel`. Questo file di configurazione definisce le informazioni relative al progetto Python, come il nome, la versione, l'autore, la descrizione e le dipendenze. Questo file è utilizzato insieme al framework `setuptools`. Inoltre:
+- `sdist` rappresenta il pacchetto sorgente, contenente il codice sorgente e altri file necessari per l'installazione.
+- `bdist_wheel` è un formato di pacchetto binario ottimizzato per la distribuzione su PyPI, che semplifica l'installazione su diverse piattaforme. La pubblicazione su PyPI (pypi.org/) mette a disposizione del pubblico il software Python, facilitando la condivisione e la collaborazione tra sviluppatori.
+
+**Problemi riscontrati in questo stage**
+Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il file `setup.py` contiene la versione dell'applicazione, e ogni volta che eseguiamo la pipeline, è necessario aggiornare la versione prima di consentire una seconda esecuzione. Questo passo è fondamentale poiché l'obiettivo è pubblicare l'applicazione su PyPI. Pertanto, per garantire una corretta esecuzione di questa fase, è essenziale verificare che non esista già un'applicazione con lo stesso nome su PyPI e che la versione sia aggiornata ad ogni esecuzione.
+
 
 ### 6. Release
 Il release è una fase che ha lo scopo di verificare la qualità e la conformità ai requisiti del software prima del rilascio agli utenti finali.
