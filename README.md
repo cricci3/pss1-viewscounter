@@ -9,10 +9,13 @@ https://gitlab.com/bicoccaprojects/2023_assignment1_viewscounter
 - Toli Emilio (920337)
 
 ## Note
-Questo README ha lo scopo di fornire una documentazione completa delle decisioni prese durante lo sviluppo della pipeline, spaziando attraverso tutte le sue fasi: Build, Verify, Unit-test, Integration-test, Package e Release. Inoltre, verranno fornite giustificazioni e commenti approfonditi per ciascuna di queste scelte.
+Questo README ha lo scopo di fornire una documentazione completa delle decisioni prese durante lo sviluppo della pipeline, spaziando attraverso tutte le sue fasi: Build, Verify, Unit-test, Integration-test, Package e Release.
+
+Inoltre, verranno fornite giustificazioni e commenti approfonditi per ciascuna di queste scelte.
 
 ## Introduzione
 Il primo Assignment del corso di Processo e Sviluppo del Software si pone come obiettivo la realizzazione di una Pipeline CI/CD che automatizzi il processo di manutenzione di un'applicazione seguendo l'insieme di pratiche DEVOPS, mirando ad abbreviare il ciclo di vita di sviluppo di un sistema e soprattutto fornendo una consegna continua di software qualitativamente elevato.
+
 La decisione di sviluppare l'applicazione in Python è stata presa con l'obiettivo di semplificare lo sviluppo della pipeline CI/CD. Rispetto ad altri linguaggi, come Java, Python offre un'esperienza di sviluppo più agevole in questo contesto. Mentre Java richiederebbe l'utilizzo di strumenti e librerie specifiche per la gestione dei processi di CI/CD, Python offre una serie di vantaggi che consentono di implementare e gestire la pipeline in modo più diretto ed efficiente.
 
 ## Applicazione
@@ -21,7 +24,7 @@ L'obiettivo principale dell'assignment non è l'implementazione dell'applicazion
 All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica quindi se tale nome è già presente nel database. In caso affermativo, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato. Se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
 
 ## Stages
-Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento dell'assignment:
+Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
 1. Build
 2. Verify
 3. Unit-test
@@ -32,15 +35,18 @@ Di seguito vengono elencate le fasi da implementare necessarie allo svolgimento 
 
 ### Prerequisiti
 In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
-- La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: `image: python:latest`. L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.
+- La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: `image: python:latest`.\
+L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.
 - Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
 L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
 - Inoltre, viene attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto. Questo ambiente consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
 
 ### 1. Build
-La compilazione del progetto avviene mediante il comando seguente:\
-`pip install -r requirements.txt`\
-Questo metodo consente di semplificare il processo di installazione delle librerie esterne richieste per l'esecuzione dell'applicazione. Al posto di elencare manualmente tutte le librerie e le rispettive versioni, vengono specificate nel file di testo "requirements.txt" le librerie necessarie. Se a fianco del nome della libreria non è specificata nessuna versione, significa che si prende quella più recente.
+La compilazione del progetto viene eseguita attraverso il seguente comando: `pip install -r requirements.txt`.
+
+Questa scelta è motivata da diverse ragioni che contribuiscono alla semplificazione del processo di installazione delle librerie esterne necessarie per l'esecuzione dell'applicazione. In questo modo, la specifica delle librerie e delle relative versioni richieste è concentrata in un file esterno denominato "requirements.txt". Questo approccio centralizzato semplifica notevolmente la gestione delle dipendenze, consentendo di elencare in modo chiaro e ordinato tutte le librerie necessarie per l'applicazione. Inoltre, l'utilizzo di un file di requisiti esterno permette di aggiungere o modificare librerie senza la necessità di apportare modifiche alla pipeline stessa. In altre parole, se si desidera inserire una nuova libreria o aggiornare una versione, è sufficiente aggiornare il file "requirements.txt". Questo aumenta l'agilità nello sviluppo, poiché non è richiesta alcuna modifica al processo di build della pipeline.
+
+In definitiva, l'uso del file "requirements.txt" per la gestione delle dipendenze promuove l'efficienza, l'agilità, la tracciabilità e la riduzione degli errori nel processo di CI/CD, offrendo un approccio robusto per gestire le librerie necessarie all'esecuzione dell'applicazione.
 
 ### 2. Verify
 La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. Al momento della prima scadenza dell'assignment, non è ancora stato scritto nella pipeline il comando di `bandit`, quindi il solo comando eseguito è:
