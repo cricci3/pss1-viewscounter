@@ -22,21 +22,28 @@ before_script:
   - pip --version
   - python -m venv venv 
   - source venv/bin/activate
+  
 build:
   stage: build
   script:
     - pip install -r requirements.txt  # Installa le dipendenze dal file requirements.txt
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
 
 verify:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
     - bandit -r 2023_assignment1_viewscounter --exclude tests
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
 
 unit-test:
   stage: unit-test
   script:
     - pytest tests/test_unit.py  # Esegui i test unitari
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
 
 integration-test:
   stage: integration-test
