@@ -25,12 +25,12 @@ All'avvio dell'applicazione, agli utenti viene richiesto di specificare il propr
 
 ## Stages
 Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
-1. Build
-2. Verify
-3. Unit-test
-4. Integration-test
-5. Package
-6. Release
+1. **Build**
+2. **Verify**
+3. **Unit-test**
+4. **Integration-test**
+5. **Package**
+6. **Release**
 
 
 ### Prerequisiti
@@ -49,23 +49,32 @@ Questa scelta è motivata da diverse ragioni che contribuiscono alla semplificaz
 In definitiva, l'uso del file "requirements.txt" per la gestione delle dipendenze promuove l'efficienza, l'agilità, la tracciabilità e la riduzione degli errori nel processo di CI/CD, offrendo un approccio robusto per gestire le librerie necessarie all'esecuzione dell'applicazione.
 
 ### 2. Verify
-La fase di "verify" nella pipeline di sviluppo utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. Al momento della prima scadenza dell'assignment, non è ancora stato scritto nella pipeline il comando di `bandit`, quindi il solo comando eseguito è:
-- `prospector`, il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice.
+La fase di "verify" nella pipeline di sviluppo, come da specifiche dell'assignment, utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione.
+- `prospector`, il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice. In sostanza, garantisce la conformità alle migliori pratiche di sviluppo, assicurando che il codice sia di alta qualità, privo di errori e pronto per il rilascio, migliorando significativamente l'efficienza e la qualità.
+- `bandit -r 2023_assignment1_viewscounter --exclude tests`, questo comando esegue l'analisi della sicurezza del codice Python dell'applicazione.
+    - `-r` indica a Bandit di eseguire l'analisi in modalità ricorsiva, esaminando tutto il    contenuto della directory specificata, inclusi tutti i file Python all'interno di essa;
+    - `--exclude tests` esclude la directory "tests" dalla scansione. Questo significa che Bandit non analizzerà il codice all'interno della directory "tests", ovvero i test di unità e integrità. I test contengono codice che potrebbe generare falsi positivi nelle analisi di sicurezza, pertanto vengono esclusi da tali analisi.
 
 ### 3. Unit-test
-Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema. In questo contesto, è stato creato un file denominato *test_unit.py* contenente una funzione di test. Questa funzione verifica il collegamento al database, restituendo `True` se la connessione è attiva.\
-Per eseguire il test di unità all'interno di una pipeline, è possibile utilizzare il seguente comando:\
-`pytest tests/test_unit.py`\
-Questo comando fa uso della libreria di testing pytest per eseguire il test specifico contenuto nel file *test_unit.py*. Il risultato dell'esecuzione fornirà un responso sul corretto funzionamento del collegamento al database. Se il test restituisce `True`, indica che il collegamento è attivo, confermando il successo del test e la validità della connessione al database.
+Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema.\
+In questo contesto, è stato creato un file denominato *test_unit.py* contenente una funzione di test. Questa funzione verifica il collegamento al database, restituendo `True` se la connessione è attiva.
 
+Per eseguire il test di unità all'interno della pipeline, è stato utilizzato il seguente comando: `pytest tests/test_unit.py`.\
+Questo comando fa uso della libreria di testing _pytest_ per eseguire il test specifico contenuto nel file *test_unit.py*.
+
+`pytest`è un framework di testing per Python che abbiamo utilizzato per la scrittura e l'esecuzione dei test unitari e dei test di integrazione. Questo framework è in grado di rilevare automaticamente i file di test all'interno del progetto. I file di test sono stati denominati secondo una convenzione di denominazione specifica, devono iniziare con "test_", così che `pytest` li identificherà e li eseguirà quando richiamto.
+
+Il risultato dell'esecuzione fornirà un responso sul corretto funzionamento del collegamento al database. Se il test restituisce `True`, indica che il collegamento è attivo, confermando il successo del test e la validità della connessione al database.
 
 ### 4. Integration-test
 Un integration test è una fase necessaria per avere la garanzia che le componenti di un'applicazione non generino problemi nel momento in cui vengono integrate assieme, garantendo che le componenti siano in grado di comunicare tra loro in maniera corretta.
 Inserendo questo stage nella pipeline i test vengono eseguiti ad ogni modifica del codice sorgente, in modo da garantire la qualità del software.
-Entrando nel contesto, l'integration test esegue due principali controlli: il primo, dopo aver inizializzato Firebase, ottiene il valore dell'utente di prova e verifica se esso sia uguale ad un valore predefinito, ossia 10 ed in tal caso il test passerà correttamente. 
 
-Il secondo test, sempre dopo aver inizializzato l'istanza di Firebase, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione "firebase.increment_counter('damiano')" che restituisce "true" in caso di riuscita dell'operazione.
-L'ultima operazione consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
+Entrando nel contesto della pipeline, l'integration test viene eseguito tramite il seguente comando: `pytest tests/test_integration.py`.\
+Questo test esegue due principali controlli:
+    1. Dopo aver inizializzato _Firebase_, ottiene il valore dell'utente di prova e verifica se esso sia uguale ad un valore predefinito, ossia 10 ed in tal caso il test passerà correttamente. 
+    2. Il secondo test, sempre dopo aver inizializzato l'istanza di _Firebase_, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione `firebase.increment_counter('damiano')` che restituisce `true` in caso di riuscita dell'operazione.\
+L'ultima operazione di questo test consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
 
 ### 5. Package
 Il package è un processo importante per la preparazione del software alla distribuzione, infatti, il codice sorgente viene convertito in pacchetti al fine di distribuire agevolmente applicazioni oppure librerie.
