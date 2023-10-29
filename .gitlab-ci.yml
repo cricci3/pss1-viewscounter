@@ -30,10 +30,16 @@ build:
   only:
   - main  # Esegui questa fase solo quando si fa push su main
 
-verify:
+prospector:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
+
+bandit:
+  stage: verify
+  script:
     - bandit -r 2023_assignment1_viewscounter --exclude tests
   only:
   - main  # Esegui questa fase solo quando si fa push su main
