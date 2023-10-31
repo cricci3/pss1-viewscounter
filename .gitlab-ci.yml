@@ -78,7 +78,6 @@ release:
 docs:
   stage: docs
   script:
-    - pip install mkdocs
     - mkdocs build --clean
     - mkdir .public
     - cp -r public/* .public
