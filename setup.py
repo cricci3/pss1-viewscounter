@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name='2023_assignemt1_viewscounter',
+    name='2023_assignment1_viewscounter',
     version="0.0.1",
     description='Questo assignment si concentra sulla creazione di un\'applicazione che conta e monitora le visualizzazioni degli utenti',
     author='Team CED',
