@@ -69,7 +69,7 @@ release:
   stage: release
   script:
     - echo "[pypi]" > ~/.pypirc  # Crea un file di configurazione per l'upload su PyPI
-    - echo "username = $TWINE_USERNAME" >> ~/.pypirc  # Imposta il nome utente per PyPI
+    - echo "username = __token__" >> ~/.pypirc  # Imposta il nome utente per PyPI
     - echo "password = $TWINE_TOKEN" >> ~/.pypirc  # Imposta il token per PyPI
     - twine upload dist/*  # Carica i pacchetti su PyPI
   only:
