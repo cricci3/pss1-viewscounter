@@ -76,17 +76,15 @@ release:
   only:
     - main
 
-docs:
+pages:
   stage: docs
   script:
-    - mkdocs build --clean  # Genera la documentazione con MkDocs
-    - mkdir .public  # Crea una directory temporanea
-    - cp -r public/* .public  # Copia la documentazione generata
+    - mkdocs build --clean
+    - mkdir .public
+    - cp -r public/* .public
   artifacts:
-    paths: 
-      - public  # Archivia la documentazione generata
-      - mkdocs.yaml  # Archivia il file di configurazione di MkDocs
-    when: on_success  # Archivia solo quando la build ha successo
+    paths:
+      - public
+      - mkdocs.yaml
   only:
     - main
-
