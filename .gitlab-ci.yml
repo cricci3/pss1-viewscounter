@@ -28,13 +28,19 @@ build:
   script:
     - pip install -r requirements.txt
 
-verify:
+prospector:
   stage: verify
   script:
-    - prospector
+    - prospector  # Esegui l'analisi statica con Prospector
+  only:
+  - main  # Esegui questa fase solo quando si fa push su main
+
+bandit:
+  stage: verify
+  script:
     - bandit -r 2023_assignment1_viewscounter --exclude tests
   only:
-    - main
+  - main  # Esegui questa fase solo quando si fa push su main
 
 unit-test:
   stage: unit-test
