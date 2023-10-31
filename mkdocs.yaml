@@ -1,0 +1,5 @@
+site_name: Views Counter Documentationn
+nav:
+  - Documentazione : "index.md"
+site_dir: public
+
