@@ -39,7 +39,8 @@ prospector:
 bandit:
   stage: verify
   script:
-    - bandit -r 2023_assignment1_viewscounter --exclude tests  # Esegui Bandit per la sicurezza del codice
+    - bandit -r application  # Esegui Bandit per la sicurezza del codice sui package contenenti l'applicazione e la parte di collegamento al database
+    - bandit -r database
   only:
   - main
 
