@@ -58,7 +58,6 @@ integration-test:
 package:
   stage: package
   script:
-    - python increment_version.py minor  # Esegui lo script di incremento della versione
     - python setup.py sdist bdist_wheel  # Crea i pacchetti distribuibili
   artifacts:
     paths:
