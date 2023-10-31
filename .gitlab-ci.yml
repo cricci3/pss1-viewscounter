@@ -1,14 +1,14 @@
-image: python:latest
+image: python:latest  # Specifica l'immagine Docker basata su Python utilizzata per le build
 
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"  # Imposta la directory di cache per pip
 
 cache:
   paths:
     - .cache/pip
-    - venv/
+    - venv/  # Specifica quali directory dovrebbero essere memorizzate nella cache tra le build
 
-stages:
+stages: # Definizione delle fasi di lavoro
   - build
   - verify
   - unit-test
@@ -18,73 +18,75 @@ stages:
   - docs
 
 before_script:
-  - python --version
-  - pip --version
-  - python -m venv venv
-  - source venv/bin/activate
+  - python --version  # Mostra la versione di Python
+  - pip --version  # Mostra la versione di pip
+  - pip install --upgrade pip  # Aggiorna pip all'ultima versione
+  - python -m venv venv  # Crea un ambiente virtuale Python
+  - source venv/bin/activate  # Attiva l'ambiente virtuale
 
 build:
   stage: build
   script:
-    - pip install -r requirements.txt
+    - pip install -r requirements.txt  # Installa i requisiti del progetto
 
 prospector:
   stage: verify
   script:
     - prospector  # Esegui l'analisi statica con Prospector
-  only:
-  - main  # Esegui questa fase solo quando si fa push su main
+  only: # Esegui questa fase solo quando si fa push su main
+  - main  
 
 bandit:
   stage: verify
   script:
-    - bandit -r 2023_assignment1_viewscounter --exclude tests
+    - bandit -r 2023_assignment1_viewscounter --exclude tests  # Esegui Bandit per la sicurezza del codice
   only:
-  - main  # Esegui questa fase solo quando si fa push su main
+  - main
 
 unit-test:
   stage: unit-test
   script:
-    - pytest tests/test_unit.py
+    - pytest tests/test_unit.py  # Esegui i test unitari
 
 integration-test:
   stage: integration-test
   script:
-    - pytest tests/test_integration.py
+    - pytest tests/test_integration.py  # Esegui i test di integrazione
   only:
     - main
 
 package:
   stage: package
   script:
-    - python increment_version.py minor   # Esegui lo script di incremento della versione
-    - python setup.py sdist bdist_wheel
+    - python increment_version.py minor  # Esegui lo script di incremento della versione
+    - python setup.py sdist bdist_wheel  # Crea i pacchetti distribuibili
   artifacts:
     paths:
-      - dist/
+      - dist/  # Archivia i pacchetti creati
   only:
     - main
 
 release:
   stage: release
   script:
-    - echo "[pypi]" > ~/.pypirc
-    - echo "username = $TWINE_USERNAME" >> ~/.pypirc
-    - echo "password = $TWINE_TOKEN" >> ~/.pypirc
-    - twine upload dist/*
+    - echo "[pypi]" > ~/.pypirc  # Crea un file di configurazione per l'upload su PyPI
+    - echo "username = $TWINE_USERNAME" >> ~/.pypirc  # Imposta il nome utente per PyPI
+    - echo "password = $TWINE_TOKEN" >> ~/.pypirc  # Imposta il token per PyPI
+    - twine upload dist/*  # Carica i pacchetti su PyPI
   only:
     - main
 
 docs:
   stage: docs
   script:
-    - mkdocs build --clean
-    - mkdir .public
-    - cp -r public/* .public
+    - mkdocs build --clean  # Genera la documentazione con MkDocs
+    - mkdir .public  # Crea una directory temporanea
+    - cp -r public/* .public  # Copia la documentazione generata
   artifacts:
     paths: 
-      - public
-      - mkdocs.yaml
-    when: on_success
+      - public  # Archivia la documentazione generata
+      - mkdocs.yaml  # Archivia il file di configurazione di MkDocs
+    when: on_success  # Archivia solo quando la build ha successo
   only:
     - main
+
