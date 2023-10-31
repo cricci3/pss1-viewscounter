@@ -69,7 +69,7 @@ release:
   stage: release
   script:
     - echo "[pypi]" > ~/.pypirc
-    - echo "username = __token__" >> ~/.pypirc
+    - echo "username = $TWINE_USERNAME" >> ~/.pypirc
     - echo "password = $TWINE_TOKEN" >> ~/.pypirc
     - twine upload dist/*
   only:
