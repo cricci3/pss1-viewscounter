@@ -1,9 +1,9 @@
 firebase_admin
-pytest==7.4.2
+pytest
 prospector
 bandit
 setuptools
 wheel
 twine
-sphinx
-sphinx-rtd-theme
+mkdocs
+
