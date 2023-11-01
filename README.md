@@ -21,7 +21,9 @@ La decisione di sviluppare l'applicazione in Python è stata presa con l'obietti
 ## Applicazione
 L'obiettivo principale dell'assignment non è l'implementazione dell'applicazione in sé. Pertanto, è stata scelta la realizzazione di un sistema estremamente semplice denominato "**Views Counter**". Questo sistema fa uso del database _Firebase_ per tenere traccia del numero di visualizzazioni effettuate da ciascun utente all'interno del sistema.
 
-All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica quindi se tale nome è già presente nel database. In caso affermativo, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato. Se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
+All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica se tale nome è già presente nel database:
+- in caso affermativo, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato.
+- se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
 
 ## Stages
 Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
@@ -40,9 +42,11 @@ In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti pri
 L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.
 - Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
 L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
-- Inoltre, viene attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto. Questo ambiente consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
+- Inoltre, viene eseguito uno stage di "before_script" che si occupa di effettuare alcune azioni necessarie a far eseguire con successo gli stages successivi:
+    - `pip --version` seguito da `pip install --upgrade pip` che si occupano di verificare e aggiornare la versione di `pip`;
+    - Inoltre, viene creato e poi attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto con `python -m venv venv` e `source venv/bin/activate`. L'ambiente virtuale consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
 
-Tutti gli stages contengono un comando che indica che lo stage, e quindi la pipeline, deve essere eseguita solo quando ci si trova sul branch `main`. In questo modo ci siamo assicurati di non far partire la pipeline, e quindi di perdere minuti di utilizzo, durante l'esecuzione di modifiche su branch diversi dal principale.
+Alcuni stages contengono un comando che indica che lo stage in questione, e quindi la pipeline, deve essere eseguita solo quando ci si trova sul branch `main`. In questo modo ci siamo assicurati di non far partire la pipeline, e quindi di perdere minuti di utilizzo, durante l'esecuzione di modifiche su branch diversi dal principale.
 
 ### 1. Build
 La compilazione del progetto viene eseguita attraverso il seguente comando: `pip install -r requirements.txt`.
