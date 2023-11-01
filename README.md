@@ -21,31 +21,35 @@ La decisione di sviluppare l'applicazione in Python è stata presa con l'obietti
 ## Applicazione
 L'obiettivo principale dell'assignment non è l'implementazione dell'applicazione in sé. Pertanto, è stata scelta la realizzazione di un sistema estremamente semplice denominato "**Views Counter**". Questo sistema fa uso del database _Firebase_ per tenere traccia del numero di visualizzazioni effettuate da ciascun utente all'interno del sistema.
 
-All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica se tale nome è già presente nel database:\
+All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica se tale nome è già presente nel database:
 \begin{itemize}
     \item in caso di risposta affermativa, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato.
     \item se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
 \end{itemize}
 
 ## Stages
-Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:\
-1. **Build**\
-2. **Verify**\
-3. **Unit-test**\
-4. **Integration-test**\
-5. **Package**\
-6. **Release**\
-7. **Docs**
+Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
+\begin{enumerate}
+    \item \textbf{Build}
+    \item \textbf{Verify}
+    \item \textbf{Unit-test}
+    \item \textbf{Integration-test}
+    \item \textbf{Package}
+    \item \textbf{Release}
+    \item \textbf{Docs}
+\end{enumerate}
 
 ### Prerequisiti
-In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:\
-- La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: `image: python:latest`.\
-L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.\
-- Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
-L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.\
-- Inoltre, viene eseguito uno stage di "before_script" che si occupa di effettuare alcune azioni necessarie a far eseguire con successo gli stages successivi:\
-    - `pip --version` seguito da `pip install --upgrade pip` che si occupano di verificare e aggiornare la versione di `pip`;\
-    - viene creato e poi attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto con `python -m venv venv` e `source venv/bin/activate`. L'ambiente virtuale consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
+In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
+\begin{itemize}
+    \item La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: \texttt{image: python:latest}. L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.
+    \item Viene definita una variabile globale denominata \texttt{PIP_CACHE_DIR}, il cui percorso è impostato su \texttt{"\$CI\_PROJECT\_DIR/.cache/pip"}. L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
+    \item Inoltre, viene eseguito uno stage di "before\_script" che si occupa di effettuare alcune azioni necessarie a far eseguire con successo gli stages successivi:
+    \begin{itemize}
+        \item \texttt{pip --version} seguito da \texttt{pip install --upgrade pip} che si occupano di verificare e aggiornare la versione di \texttt{pip}.
+        \item Viene creato e poi attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto con \texttt{python -m venv venv} e \texttt{source venv/bin/activate}. L'ambiente virtuale consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
+    \end{itemize}
+\end{itemize}
 
 Alcuni stages contengono un comando che indica che lo stage in questione, e quindi la pipeline, deve essere eseguita solo quando ci si trova sul branch `main`. In questo modo ci siamo assicurati di non far partire la pipeline, e quindi di perdere minuti di utilizzo, durante l'esecuzione di modifiche su branch diversi dal principale.
 
