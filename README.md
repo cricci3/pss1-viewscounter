@@ -92,19 +92,17 @@ L'ultima operazione di questo test consiste nel verificare che il contatore sia 
 Durante la fase di Package, il codice sorgente viene trasformato in pacchetti, agevolando così la distribuzione di applicazioni e librerie. I pacchetti sono archivi che includono il codice sorgente e i file necessari all'installazione del software su vari sistemi e ambienti. Questo processo è fondamentale per semplificare la distribuzione e garantire che il software funzioni su diverse piattaforme.
 
 Nella pipeline questo stage è uno dei più critici ed esegue diverse operazioni per preparare il codice alla distribuzione. Per comprendere meglio questo stage, dividiamo (a fini esplicativi) queste azioni in gruppi.\
-1. **Generazione dei Pacchetti**: `python setup.py sdist bdist_wheel` utilizziamo il file `setup.py` per creare pacchetti sorgente e pacchetti `bdist_wheel`. Questo file di configurazione definisce le informazioni relative al progetto Python, come il nome, la versione, l'autore, la descrizione e le dipendenze. Questo file è utilizzato insieme al framework `setuptools`.
-\begin{itemize}
-    \item `sdist` rappresenta il pacchetto sorgente, contenente il codice sorgente e altri file necessari per l'installazione.
-    \item `bdist_wheel` è un formato di pacchetto binario ottimizzato per la distribuzione su PyPI, che semplifica l'installazione su diverse piattaforme. La pubblicazione su PyPI (pypi.org/) mette a disposizione del pubblico il software Python, facilitando la condivisione e la collaborazione tra sviluppatori.
-\end{itemize}
-2. **Operazioni Preliminari**: prima di poter eseguire il comando appena descritto è necessario effettuare i seguenti comandi:
-\begin{itemize}
-    \item `git config user.email $GIT_EMAIL` e `git config user.name $GIT_NAME` che configurano l'utente Git con l'indirizzo email e il nome specificati nelle variabili d'ambiente `$GIT_EMAIL` e `$GIT_NAME`.
-    \item `git remote add gitlab_origin $GITLAB_REMOTE_URL` che aggiunge un'origine Git denominata "gitlab_origin" con l'URL specificato nella variabile `$GITLAB_REMOTE_URL`.
-    \item `python increment_version.py patch` che esegue lo scritp del file _increment_version_ che si occupa di aggiornare il numero di versione del progetto nel file _setup.py_. E per questo, successivamente, è necessario eseguire `git add setup.py` per aggiungere questo file alle modifiche su cui si eseguirà il comando di _commit_.
-    \item `git commit -m "incremento versione"` per eseguire il _commit_.
-    \item `git push gitlab_origin HEAD:main -o ci.skip` che esegue il push delle modifiche al repository remoto e utilizza l'opzione `-o ci.skip` per impedire l'attivazione di una pipeline CI/CD in risposta a questo push.
-\end{itemize}
+1. **Generazione dei Pacchetti**: `python setup.py sdist bdist_wheel` utilizziamo il file `setup.py` per creare pacchetti sorgente e pacchetti `bdist_wheel`. Questo file di configurazione definisce le informazioni relative al progetto Python, come il nome, la versione, l'autore, la descrizione e le dipendenze. Questo file è utilizzato insieme al framework `setuptools`.\
+- `sdist` rappresenta il pacchetto sorgente, contenente il codice sorgente e altri file necessari per l'installazione.\
+- `bdist_wheel` è un formato di pacchetto binario ottimizzato per la distribuzione su PyPI, che semplifica l'installazione su diverse piattaforme. La pubblicazione su PyPI (pypi.org/) mette a disposizione del pubblico il software Python, facilitando la condivisione e la collaborazione tra sviluppatori.
+
+2. **Operazioni Preliminari**: prima di poter eseguire il comando appena descritto è necessario effettuare i seguenti comandi:\
+- `git config user.email $GIT_EMAIL` e `git config user.name $GIT_NAME` che configurano l'utente Git con l'indirizzo email e il nome specificati nelle variabili d'ambiente `$GIT_EMAIL` e `$GIT_NAME`.\
+- `git remote add gitlab_origin $GITLAB_REMOTE_URL` che aggiunge un'origine Git denominata "gitlab_origin" con l'URL specificato nella variabile `$GITLAB_REMOTE_URL`.\
+- `python increment_version.py patch` che esegue lo scritp del file _increment_version_ che si occupa di aggiornare il numero di versione del progetto nel file _setup.py_. E per questo, successivamente, è necessario eseguire `git add setup.py` per aggiungere questo file alle modifiche su cui si eseguirà il comando di _commit_.\
+- `git commit -m "incremento versione"` per eseguire il _commit_.\
+- `git push gitlab_origin HEAD:main -o ci.skip` che esegue il push delle modifiche al repository remoto e utilizza l'opzione `-o ci.skip` per impedire l'attivazione di una pipeline CI/CD in risposta a questo push.
+
 3. **Archiviazione dei pacchetti**: l'esecuzione di questo stage produrrà dei pacchetti (artifacts) che vengono archiviati nella directory "dist/".
 
 **Scelte architetturali**\
@@ -130,6 +128,9 @@ Un progetto di sviluppo di software non è completo senza una documentazione ade
 
 Questa fase della pipeline è dedicata alla generazione della documentazione e alla sua pubblicazione.\
 Per farlo sono necessarie diverse azioni che dividiamo in tre gruppi.\
+
 1. **Generazione della Documentazione**: `mkdocs build --clean` è il comando principale utilizzato per generare la documentazione del progetto. `mkdocs` è uno strumento di generazione della documentazione che elabora i file Markdown presenti nel repository e crea una versione formattata della documentazione pronta per la distribuzione. L'opzione `--clean` assicura che la cartella di output sia ripulita da vecchi file inutili, garantendo che la nuova documentazione sia fresca e aggiornata.\
+
 2. **Preparazione dei file generati**: `mkdir .public` crea una directory chiamata ".public". in cui successivamente con `cp -r public/* .public` viene copiato ricorsivamente (`-r`) tutto il contenuto della directory "public". Questo passaggio serve a preparare i file della documentazione generata.\
+
 3. **Archiviazione degli Artefatti**: nella sezione degli artifacts, vengono specificati i file o le directory che devono essere conservati per un uso futuro. Viene specificato di conservare il file _mkdocs.yaml_, che è il file di configurazione principale di MkDocs contenente le impostazioni e le informazioni necessarie per generare la documentazione. E anche la directory "public" contenente la documentazione appena generata.
