@@ -82,10 +82,11 @@ Il risultato dell'esecuzione fornirà un responso sul corretto funzionamento del
 Un integration test è una fase necessaria per avere la garanzia che le componenti di un'applicazione non generino problemi nel momento in cui vengono integrate assieme, garantendo che le componenti siano in grado di comunicare tra loro in maniera corretta.\
 Inserendo questo stage nella pipeline i test vengono eseguiti ad ogni modifica del codice sorgente, in modo da garantire la qualità del software.
 
-Entrando nel contesto della pipeline, l'integration test viene eseguito tramite il seguente comando: `pytest tests/test_integration.py`.\
-Questo test esegue due principali controlli:\
-    1. Dopo aver inizializzato _Firebase_, ottiene il valore dell'utente di prova e verifica se esso sia uguale ad un valore predefinito, ossia 10 ed in tal caso il test passerà correttamente.\
-    2. Il secondo test, sempre dopo aver inizializzato l'istanza di _Firebase_, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione `firebase.increment_counter('damiano')` che restituisce `true` in caso di riuscita dell'operazione.\
+Entrando nel contesto della pipeline, l'integration test viene eseguito tramite il seguente comando: `pytest tests/test_integration.py`. Questo test esegue due principali controlli:
+\begin{enumerate}
+    \item Dopo aver inizializzato _Firebase_, ottiene il valore dell'utente di prova e verifica se esso sia uguale ad un valore predefinito, ossia 10 ed in tal caso il test passerà correttamente.
+    \item Il secondo test, sempre dopo aver inizializzato l'istanza di _Firebase_, imposta il valore del contatore dell'utente "damiano" con il valore '5' verificando, poi, che l'incremento funzioni correttamente richiamando la funzione `firebase.increment_counter('damiano')` che restituisce `true` in caso di riuscita dell'operazione.
+\end{enumerate}
 L'ultima operazione di questo test consiste nel verificare che il contatore sia stato incrementato correttamente e che quindi abbia valore '6'.
 
 ### 5. Package
