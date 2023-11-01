@@ -56,11 +56,11 @@ Questa scelta è motivata da diverse ragioni che contribuiscono alla semplificaz
 In definitiva, l'uso del file "requirements.txt" per la gestione delle dipendenze promuove l'efficienza, l'agilità, la tracciabilità e la riduzione degli errori nel processo di CI/CD, offrendo un approccio robusto per gestire le librerie necessarie all'esecuzione dell'applicazione.
 
 ### 2. Verify
-La fase di "verify" nella pipeline di sviluppo, come da specifiche dell'assignment, utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione.
-- `prospector`, il quale esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice. In sostanza, garantisce la conformità alle migliori pratiche di sviluppo, assicurando che il codice sia di alta qualità, privo di errori e pronto per il rilascio, migliorando significativamente l'efficienza e la qualità.
-- `bandit -r 2023_assignment1_viewscounter --exclude tests`, questo comando esegue l'analisi della sicurezza del codice Python dell'applicazione.
-    - `-r` indica a Bandit di eseguire l'analisi in modalità ricorsiva, esaminando tutto il    contenuto della directory specificata, inclusi tutti i file Python all'interno di essa;
-    - `--exclude tests` esclude la directory "tests" dalla scansione. Questo significa che Bandit non analizzerà il codice all'interno della directory "tests", ovvero i test di unità e integrità. I test contengono codice che potrebbe generare falsi positivi nelle analisi di sicurezza, pertanto vengono esclusi da tali analisi.
+La fase di "verify" nella pipeline di sviluppo, come da specifiche dell'assignment, utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. 
+
+Dato che questi due comandi sono indipendenti l'uno dall'altro, si è scelto di scrivere lo scritp di questo stage in modo che esegua due jobs in parallelo per migliorare le prestazioni della pipeline. I due jobs eseguono `prospector` e `bandit`, in particolare:
+- "prospector", esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice. In sostanza, garantisce la conformità alle migliori pratiche di sviluppo, assicurando che il codice sia di alta qualità, privo di errori e pronto per il rilascio, migliorando significativamente l'efficienza e la qualità.
+- "bandit" esegue due analisi separate della sicurezza del codice Python per due diverse parti del progetto: "application" (frontend) e "database" (gestione del database). Questa analisi include l'esecuzione del comando `bandit` due volte, una per ciascuna parte del progetto. Utilizzando l'opzione `-r`, Bandit esegue l'analisi in modalità ricorsiva, esaminando tutto il contenuto delle directory specificate, inclusi tutti i file Python presenti al loro interno.
 
 ### 3. Unit-test
 Un test di unità ha lo scopo di verificare il corretto funzionamento di una singola unità di codice, come un metodo, una funzione o una classe, in modo indipendente dal resto del sistema.\
@@ -86,12 +86,21 @@ L'ultima operazione di questo test consiste nel verificare che il contatore sia 
 ### 5. Package
 Durante la fase di Package, il codice sorgente viene trasformato in pacchetti, agevolando così la distribuzione di applicazioni e librerie. I pacchetti sono archivi che includono il codice sorgente e i file necessari all'installazione del software su vari sistemi e ambienti. Questo processo è fondamentale per semplificare la distribuzione e garantire che il software funzioni su diverse piattaforme.
 
-Nella nostra pipeline viene eseguito questo comando `python setup.py sdist bdist_wheel`.\ Utilizziamo il file `setup.py` per creare pacchetti sorgente e pacchetti `bdist_wheel`. Questo file di configurazione definisce le informazioni relative al progetto Python, come il nome, la versione, l'autore, la descrizione e le dipendenze. Questo file è utilizzato insieme al framework `setuptools`. Inoltre:
-- `sdist` rappresenta il pacchetto sorgente, contenente il codice sorgente e altri file necessari per l'installazione.
-- `bdist_wheel` è un formato di pacchetto binario ottimizzato per la distribuzione su PyPI, che semplifica l'installazione su diverse piattaforme. La pubblicazione su PyPI (pypi.org/) mette a disposizione del pubblico il software Python, facilitando la condivisione e la collaborazione tra sviluppatori.
+Nella pipeline questo stage è uno dei più critichi ed esegue diverse operazioni per preparare il codice alla distribuzione. Il comando principale eseguito è `python setup.py sdist bdist_wheel`.\ Utilizziamo il file `setup.py` per creare pacchetti sorgente e pacchetti `bdist_wheel`. Questo file di configurazione definisce le informazioni relative al progetto Python, come il nome, la versione, l'autore, la descrizione e le dipendenze. Questo file è utilizzato insieme al framework `setuptools`.
+    - `sdist` rappresenta il pacchetto sorgente, contenente il codice sorgente e altri file necessari per l'installazione.
+    - `bdist_wheel` è un formato di pacchetto binario ottimizzato per la distribuzione su PyPI, che semplifica l'installazione su diverse piattaforme. La pubblicazione su PyPI (pypi.org/) mette a disposizione del pubblico il software Python, facilitando la condivisione e la collaborazione tra sviluppatori.
+
+Ma prima di poter eseguire il comando appena descritto è necessario effettuare i seguenti comandi:
+- `git config user.email $GIT_EMAIL` e `git config user.name $GIT_NAME` che configurano l'utente Git con l'indirizzo email e il nome specificati nelle variabili d'ambiente `$GIT_EMAIL` e `$GIT_NAME`.
+- `git remote add gitlab_origin $GITLAB_REMOTE_URL` che aggiunge un'origine Git denominata "gitlab_origin" con l'URL specificato nella variabile `$GITLAB_REMOTE_URL`.
+- `python increment_version.py patch` che esegue lo scritp del file _increment_version_ che si occupa di aggiornare il numero di versione del progetto nel file _setup.py_. E per questo, successivamente, è necessario eseguire `git add setup.py` per aggiungere questo file alle modifiche su cui si eseguirà il comando di _commit_.
+- `git commit -m "incremento versione"` per eseguire il _commit_.
+- `git push gitlab_origin HEAD:main -o ci.skip` che esegue il push delle modifiche al repository remoto e utilizza l'opzione `-o ci.skip` per impedire l'attivazione di una pipeline CI/CD in risposta a questo push.
+
+Infine, l'esecuzione di questo stage produrrà dei pacchetti (artifacts) che vengono archiviati nella directory "dist/".
 
 **Problemi riscontrati in questo stage**
-Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il file `setup.py` contiene la versione dell'applicazione, e ogni volta che eseguiamo la pipeline, è necessario aggiornare la versione prima di consentire una seconda esecuzione. Questo passo è fondamentale poiché l'obiettivo è pubblicare l'applicazione su PyPI. Pertanto, per garantire una corretta esecuzione di questa fase, è essenziale verificare che non esista già un'applicazione con lo stesso nome su PyPI e che la versione sia aggiornata ad ogni esecuzione.
+Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il file `setup.py` contiene la versione dell'applicazione, e ogni volta che eseguiamo la pipeline, è necessario aggiornare la versione prima di consentire una seconda esecuzione. Questo passo è fondamentale poiché l'obiettivo è pubblicare l'applicazione su PyPI. Pertanto, per garantire una corretta esecuzione di questa fase, è essenziale verificare che non esista già un'applicazione con lo stesso nome su PyPI e che la versione sia aggiornata ad ogni esecuzione. A questo fine, si è deciso di creare uno scritp _increment_version.py_ che si occupa di aggiornare in modo automatico la versione del progetto.
 
 
 ### 6. Release
