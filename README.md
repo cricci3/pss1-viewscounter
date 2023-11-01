@@ -114,10 +114,14 @@ Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il f
 
 ### 6. Release
 Questa fase della pipeline è strettamente correlata alla fase precedente di "Package" in quanto, se nella fase di "Package" abbiamo preparato i pacchetti dell'applicazione, in questa fase li pubblichiamo su PyPI.\
-I passi eseguiti da questo stage sono i seguenti:\
-- `echo "[pypi]" > ~/.pypirc`, in questo passaggio viene creato un file di configurazione necessario per l'interazione con PyPI. Questo file conterrà le informazioni di autenticazione richieste per l'upload dei pacchetti Python su PyPI.\
-- `echo "username = $TWINE_USERNAME" >> ~/.pypirc`, qui, all'interno del file _.pypirc_, specificiamo che lo username per l'autenticazione su PyPI.\
-- `echo "password = $TWINE_TOKEN" >> ~/.pypirc`, inseriamo il valore del token API come password nel file _.pypirc_. Il valore del token è recuperato da una variabile globale, $TWINE_TOKEN, definita nelle impostazioni di GitLab. Questo indica che l'autenticazione avviene tramite un token API anziché un nome utente e una password tradizionali.\
+I passi eseguiti da questo stage sono i seguenti:
+
+- `echo "[pypi]" > ~/.pypirc`, in questo passaggio viene creato un file di configurazione necessario per l'interazione con PyPI. Questo file conterrà le informazioni di autenticazione richieste per l'upload dei pacchetti Python su PyPI.
+
+- `echo "username = $TWINE_USERNAME" >> ~/.pypirc`, qui, all'interno del file _.pypirc_, specificiamo che lo username per l'autenticazione su PyPI.
+
+- `echo "password = $TWINE_TOKEN" >> ~/.pypirc`, inseriamo il valore del token API come password nel file _.pypirc_. Il valore del token è recuperato da una variabile globale, $TWINE_TOKEN, definita nelle impostazioni di GitLab. Questo indica che l'autenticazione avviene tramite un token API anziché un nome utente e una password tradizionali.
+
 - `twine upload dist/*`, questa istruzione permette di caricare su PyPI i pacchetti generati nella fase di "Package" nella directory `dist/`. Viene utilizzato "Twine", che è uno strumento di Python per facilitare l'upload di pacchetti verso repository di pacchetti come PyPI
 
 **Scelte architetturali**\
@@ -127,10 +131,10 @@ Per eseguire questa fase, è stato necessario creare un account su PyPI. Al fine
 Un progetto di sviluppo di software non è completo senza una documentazione adeguata. La documentazione fornisce agli sviluppatori, agli utenti e agli altri membri del team tutte le informazioni necessarie per comprendere, utilizzare ed estendere il software. Questa fase è dedicata a garantire che la documentazione sia sempre allineata con il codice sorgente e pronta per essere distribuita.
 
 Questa fase della pipeline è dedicata alla generazione della documentazione e alla sua pubblicazione.\
-Per farlo sono necessarie diverse azioni che dividiamo in tre gruppi.\
+Per farlo sono necessarie diverse azioni che dividiamo in tre gruppi.
 
-1. **Generazione della Documentazione**: `mkdocs build --clean` è il comando principale utilizzato per generare la documentazione del progetto. `mkdocs` è uno strumento di generazione della documentazione che elabora i file Markdown presenti nel repository e crea una versione formattata della documentazione pronta per la distribuzione. L'opzione `--clean` assicura che la cartella di output sia ripulita da vecchi file inutili, garantendo che la nuova documentazione sia fresca e aggiornata.\
+1. **Generazione della Documentazione**: `mkdocs build --clean` è il comando principale utilizzato per generare la documentazione del progetto. `mkdocs` è uno strumento di generazione della documentazione che elabora i file Markdown presenti nel repository e crea una versione formattata della documentazione pronta per la distribuzione. L'opzione `--clean` assicura che la cartella di output sia ripulita da vecchi file inutili, garantendo che la nuova documentazione sia fresca e aggiornata.
 
-2. **Preparazione dei file generati**: `mkdir .public` crea una directory chiamata ".public". in cui successivamente con `cp -r public/* .public` viene copiato ricorsivamente (`-r`) tutto il contenuto della directory "public". Questo passaggio serve a preparare i file della documentazione generata.\
+2. **Preparazione dei file generati**: `mkdir .public` crea una directory chiamata ".public". in cui successivamente con `cp -r public/* .public` viene copiato ricorsivamente (`-r`) tutto il contenuto della directory "public". Questo passaggio serve a preparare i file della documentazione generata.
 
 3. **Archiviazione degli Artefatti**: nella sezione degli artifacts, vengono specificati i file o le directory che devono essere conservati per un uso futuro. Viene specificato di conservare il file _mkdocs.yaml_, che è il file di configurazione principale di MkDocs contenente le impostazioni e le informazioni necessarie per generare la documentazione. E anche la directory "public" contenente la documentazione appena generata.
