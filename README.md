@@ -22,10 +22,10 @@ La decisione di sviluppare l'applicazione in Python è stata presa con l'obietti
 L'obiettivo principale dell'assignment non è l'implementazione dell'applicazione in sé. Pertanto, è stata scelta la realizzazione di un sistema estremamente semplice denominato "**Views Counter**". Questo sistema fa uso del database _Firebase_ per tenere traccia del numero di visualizzazioni effettuate da ciascun utente all'interno del sistema.
 
 All'avvio dell'applicazione, agli utenti viene richiesto di specificare il proprio nome e, in seguito, l'applicazione verifica se tale nome è già presente nel database:
-\begin{itemize}
-    \item in caso di risposta affermativa, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato.
-    \item se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
-\end{itemize}
+
+- in caso di risposta affermativa, il sistema incrementa il conteggio delle visualizzazioni associate a quell'utente e restituisce il valore aggiornato.
+
+- se, invece, si tratta della prima volta in cui quel nome viene inserito, il sistema restituisce un valore iniziale di 1.
 
 ## Stages
 Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
@@ -40,9 +40,11 @@ Di seguito vengono elencate le fasi che sono state implementate per lo svolgimen
 \end{enumerate}
 
 ### Prerequisiti
-In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:\
+In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
+
 - La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: `image: python:latest`.\
 L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.\
+
 - Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
 L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.\
 - Inoltre, viene eseguito uno stage di "before_script" che si occupa di effettuare alcune azioni necessarie a far eseguire con successo gli stages successivi:
