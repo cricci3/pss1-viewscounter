@@ -64,7 +64,7 @@ package:
     - git remote add gitlab_origin $GITLAB_REMOTE_URL #aggiunta di un repository remoto
     - python increment_version.py patch #richiamo al metodo per l'aggiornamento della versione del progetto
     - git add setup.py #aggiunge il file setup.py
-    - git commit -m "incremento versione" #crea un commit chiamato "incremento versione"
+    - git commit -m "incremento versione" #crea un commit con il messaggio "incremento versione"
     - git push gitlab_origin HEAD:main -o ci.skip #esegue il push sul main con il comando per non eseguire la pipeline
     - python setup.py sdist bdist_wheel  # Crea i pacchetti distribuibili
   artifacts:
