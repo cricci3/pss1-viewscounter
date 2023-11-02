@@ -42,7 +42,7 @@ bandit:
     - bandit -r application  # Esegui Bandit per la sicurezza del codice sui package contenenti l'applicazione e la parte di collegamento al database
     - bandit -r database
   only:
-  - main
+  - main  #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
 
 unit-test:
   stage: unit-test
