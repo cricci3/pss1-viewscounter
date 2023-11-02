@@ -42,15 +42,14 @@ Di seguito vengono elencate le fasi che sono state implementate per lo svolgimen
 In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
 
 - La pipeline utilizza l'immagine Docker Python più recente come base, definita come segue: `image: python:latest`.\
-L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.\
+L'immagine Docker Python assicura che tutte le fasi della pipeline utilizzino un ambiente coerente, eliminando problemi di compatibilità tra ambienti di sviluppo e produzione. Inoltre, le immagini Docker Python sono in genere rapide da avviare, ottimizzando i tempi di build e test all'interno della pipeline.
 
 - Viene definita una variabile globale denominata `PIP_CACHE_DIR`, il cui percorso è impostato su `"$CI_PROJECT_DIR/.cache/pip"`.\
-L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.\
+L'utilizzo della cache in una pipeline riveste un ruolo fondamentale nel migliorare l'efficienza, la velocità e la coerenza del processo di sviluppo del software. Tale pratica consente di ottimizzare l'uso delle risorse e garantisce un flusso di lavoro più agevole.
 - Inoltre, viene eseguito uno stage di "before_script" che si occupa di effettuare alcune azioni necessarie a far eseguire con successo gli stages successivi:
-    \begin{itemize}
-        \item `pip --version` seguito da `pip install --upgrade pip` che si occupano di verificare e aggiornare la versione di `pip`;
-        \item viene creato e poi attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto con `python -m venv venv` e `source venv/bin/activate`. L'ambiente virtuale consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
-    \end{itemize}
+    - `pip --version` seguito da `pip install --upgrade pip` che si occupano di verificare e aggiornare la versione di `pip`;
+    - Viene creato e poi attivato un ambiente virtuale per isolare tutte le operazioni Python all'interno del progetto con `python -m venv venv` e `source venv/bin/activate`. L'ambiente virtuale consente di installare e gestire le dipendenze specifiche per il progetto senza interferire con il sistema globale.
+    
     
 Alcuni stages contengono un comando che indica che lo stage in questione, e quindi la pipeline, deve essere eseguita solo quando ci si trova sul branch `main`. In questo modo ci siamo assicurati di non far partire la pipeline, e quindi di perdere minuti di utilizzo, durante l'esecuzione di modifiche su branch diversi dal principale.
 
@@ -64,8 +63,8 @@ In definitiva, l'uso del file "requirements.txt" per la gestione delle dipendenz
 ### 2. Verify
 La fase di "verify" nella pipeline di sviluppo, come da specifiche dell'assignment, utilizza due comandi per eseguire controlli di qualità del codice e identificare possibili problematiche di sicurezza prima di procedere ulteriormente nello sviluppo dell'applicazione. 
 
-Dato che questi due comandi sono indipendenti l'uno dall'altro, si è scelto di scrivere lo scritp di questo stage in modo che esegua due jobs in parallelo per migliorarne le prestazioni. I due jobs eseguono `prospector` e `bandit`, in particolare:\
-- "prospector", esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice. In sostanza, garantisce la conformità alle migliori pratiche di sviluppo, assicurando che il codice sia di alta qualità, privo di errori e pronto per il rilascio, migliorando significativamente l'efficienza e la qualità.\
+Dato che questi due comandi sono indipendenti l'uno dall'altro, si è scelto di scrivere lo scritp di questo stage in modo che esegua due jobs in parallelo per migliorarne le prestazioni. I due jobs eseguono `prospector` e `bandit`, in particolare:
+- "prospector", esegue l'analisi statica del codice alla ricerca di possibili problemi di stile, conformità alle linee guida di codifica, e altre metriche di qualità del codice. In sostanza, garantisce la conformità alle migliori pratiche di sviluppo, assicurando che il codice sia di alta qualità, privo di errori e pronto per il rilascio, migliorando significativamente l'efficienza e la qualità.
 - "bandit" esegue due analisi separate della sicurezza del codice Python per due diverse parti del progetto: "application" (frontend) e "database" (gestione del database). Questa analisi include l'esecuzione del comando `bandit` due volte, una per ciascuna parte del progetto. Utilizzando l'opzione `-r`, Bandit esegue l'analisi in modalità ricorsiva, esaminando tutto il contenuto delle directory specificate, inclusi tutti i file Python presenti al loro interno.
 
 ### 3. Unit-test
@@ -122,7 +121,7 @@ In questo stage della pipeline (e anche in quello successivo), si è scelto di d
 **Problemi riscontrati in questo stage**\
 Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il file `setup.py` contiene la versione dell'applicazione, e ogni volta che eseguiamo la pipeline, è necessario aggiornare la versione prima di consentire una seconda esecuzione. Questo passo è fondamentale poiché l'obiettivo è pubblicare l'applicazione su PyPI. Pertanto, per garantire una corretta esecuzione di questa fase, è essenziale verificare che non esista già un'applicazione con lo stesso nome su PyPI e che la versione sia aggiornata ad ogni esecuzione. A questo fine, si è deciso di creare uno scritp _increment_version.py_ che si occupa di aggiornare in modo automatico la versione del progetto.
 
-**Funzionamento di _increment_version.py_ **\
+**Funzionamento di _increment_version.py_**\
 Nel nostro approccio allo sviluppo dello script _increment_version.py, abbiamo adottato una serie di scelte architetturali mirate per garantire l'efficacia e l'usabilità del programma.\
 La decisione di creare uno script dedicato all'incremento della versione all'interno del file `setup.py` è stata guidata dalla necessità di automatizzare un processo comune in modo semplice ed efficiente. Questo rende più agevole per gli sviluppatori la gestione delle versioni del proprio software e riduce il rischio di errori umani.\
 L'uso di un parametro specifico, come `major`, `minor`, o `patch`, è stato implementato per consentire agli utenti di personalizzare l'azione di incremento. Questa scelta offre flessibilità e controllo, permettendo di adattare l'incremento della versione alle esigenze specifiche del progetto.\
