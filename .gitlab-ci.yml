@@ -54,7 +54,7 @@ integration-test:
   script:
     - pytest tests/test_integration.py  # Esegui i test di integrazione
   only:
-    - main
+    - main  #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
 
 package:
   stage: package
