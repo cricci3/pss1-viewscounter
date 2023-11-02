@@ -87,7 +87,7 @@ pages:
   stage: docs
   script:
     - mkdocs build --clean #Esegue la pulizia e la compilazione del progetto, generando una nuova versione del sito
-    - mkdir .public #crea la directory .public
+    - mkdir .public #crea la directory nascosta ".public"
     - cp -r public/* .public #copia il contenuto della cartella public in .public
   artifacts:
     paths:
