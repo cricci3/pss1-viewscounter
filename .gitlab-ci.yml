@@ -61,7 +61,7 @@ package:
   script:
     - git config user.email $GIT_EMAIL #configura l'indirizzo email dell'utente
     - git config user.name $GIT_NAME #configura il nome utente dell'utente
-    - git remote add gitlab_origin $GITLAB_REMOTE_URL
+    - git remote add gitlab_origin $GITLAB_REMOTE_URL #aggiunta di un repository remoto
     - python increment_version.py patch
     - git add setup.py
     - git commit -m "incremento versione"
