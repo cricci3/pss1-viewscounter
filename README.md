@@ -107,7 +107,7 @@ Nella pipeline questo stage è uno dei più critici ed esegue diverse operazioni
 
 - `git config user.email $GIT_EMAIL` e `git config user.name $GIT_NAME` che configurano l'utente Git con l'indirizzo email e il nome specificati nelle variabili d'ambiente `$GIT_EMAIL` e `$GIT_NAME`.
 
-- `git remote add gitlab_origin $GITLAB_REMOTE_URL` che aggiunge un'origine Git denominata "gitlab_origin" con l'URL specificato nella variabile `$GITLAB_REMOTE_URL`.
+- `git remote add gitlab_origin $GITLAB_REMOTE_URL` che aggiunge un'origine Git denominata "gitlab_origin" con l'URL specificato nella variabile `$GITLAB_REMOTE_URL`. Di particolare rilevanza è la creazione di un ACCESS_TOKEN con permessi API e di lettura/scrittura per automatizzare il processo di push delle modifiche al repository. Questo access token agisce come una chiave di autenticazione, consentendo di comunicare con il repository in modo sicuro. Questa pratica non solo semplifica il processo di aggiornamento del codice, ma garantisce anche la sicurezza delle operazioni, poiché limita l'accesso solo alle azioni autorizzate
 
 - `python increment_version.py patch` che esegue lo scritp del file _increment_version_ che si occupa di aggiornare il numero di versione del progetto nel file _setup.py_. E per questo, successivamente, è necessario eseguire `git add setup.py` per aggiungere questo file alle modifiche su cui si eseguirà il comando di _commit_.
 
@@ -122,6 +122,15 @@ In questo stage della pipeline (e anche in quello successivo), si è scelto di d
 
 **Problemi riscontrati in questo stage**\
 Durante questa fase, è importante prestare attenzione a un aspetto chiave. Il file `setup.py` contiene la versione dell'applicazione, e ogni volta che eseguiamo la pipeline, è necessario aggiornare la versione prima di consentire una seconda esecuzione. Questo passo è fondamentale poiché l'obiettivo è pubblicare l'applicazione su PyPI. Pertanto, per garantire una corretta esecuzione di questa fase, è essenziale verificare che non esista già un'applicazione con lo stesso nome su PyPI e che la versione sia aggiornata ad ogni esecuzione. A questo fine, si è deciso di creare uno scritp _increment_version.py_ che si occupa di aggiornare in modo automatico la versione del progetto.
+**Scelte architetturali _increment_version.py_ **\
+Nel nostro approccio allo sviluppo dello script _increment_version.py, abbiamo adottato una serie di scelte architetturali mirate per garantire l'efficacia e l'usabilità del programma.
+
+Innanzitutto, la decisione di creare uno script dedicato all'incremento della versione all'interno del file `setup.py` è stata guidata dalla necessità di automatizzare un processo comune in modo semplice ed efficiente. Questo rende più agevole per gli sviluppatori la gestione delle versioni del proprio software e riduce il rischio di errori umani.
+
+L'uso di un parametro specifico, come `major`, `minor`, o `patch`, è stato implementato per consentire agli utenti di personalizzare l'azione di incremento. Questa scelta offre flessibilità e controllo, permettendo di adattare l'incremento della versione alle esigenze specifiche del progetto. Ad esempio, se desideriamo introdurre modifiche significative o nuove funzionalità, possiamo utilizzare il parametro `major` per indicare una "versione principale" del software. D'altra parte, il parametro `minor` può essere utile per segnalare modifiche minori o aggiunte, mentre `patch` è ideale per correzioni di bug e aggiustamenti minori.
+
+Il codice utilizza in modo intelligente le espressioni regolari (regex) per individuare e catturare la versione corrente all'interno del file _setup.py_. Questo approccio garantisce una maggiore precisione nell'estrazione dei dati, consentendo al programma di funzionare in modo affidabile anche in situazioni complesse.
+
 
 
 ### 6. Release
