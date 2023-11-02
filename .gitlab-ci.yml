@@ -59,8 +59,8 @@ integration-test:
 package:
   stage: package
   script:
-    - git config user.email $GIT_EMAIL
-    - git config user.name $GIT_NAME
+    - git config user.email $GIT_EMAIL #configura l'indirizzo email dell'utente
+    - git config user.name $GIT_NAME #configura il nome utente dell'utente
     - git remote add gitlab_origin $GITLAB_REMOTE_URL
     - python increment_version.py patch
     - git add setup.py
