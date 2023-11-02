@@ -81,7 +81,7 @@ release:
     - echo "password = $TWINE_TOKEN" >> ~/.pypirc  # Imposta il token per PyPI
     - twine upload dist/*  # Carica i pacchetti su PyPI
   only:
-    - main
+    - main #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
 
 pages:
   stage: docs
