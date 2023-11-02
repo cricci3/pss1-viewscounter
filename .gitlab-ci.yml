@@ -53,8 +53,8 @@ integration-test:
   stage: integration-test
   script:
     - pytest tests/test_integration.py  # Esegui i test di integrazione
-  only:
-    - main  #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
+  only: # Esegui questa fase solo quando si fa push su main
+    - main  
 
 package:
   stage: package
@@ -70,8 +70,8 @@ package:
   artifacts:
     paths:
       - dist/  # Archivia i pacchetti creati
-  only:
-    - main  #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
+  only: # Esegui questa fase solo quando si fa push su main
+    - main 
 
 release:
   stage: release
@@ -80,8 +80,8 @@ release:
     - echo "username = $TWINE_USERNAME" >> ~/.pypirc  # Imposta il nome utente per PyPI
     - echo "password = $TWINE_TOKEN" >> ~/.pypirc  # Imposta il token per PyPI
     - twine upload dist/*  # Carica i pacchetti su PyPI
-  only:
-    - main #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
+  only: # Esegui questa fase solo quando si fa push su main
+    - main 
 
 pages:
   stage: docs
@@ -93,5 +93,5 @@ pages:
     paths:
       - public
       - mkdocs.yaml
-  only:
+  only: # Esegui questa fase solo quando si fa push su main
     - main
