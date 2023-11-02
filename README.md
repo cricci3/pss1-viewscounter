@@ -29,15 +29,14 @@ All'avvio dell'applicazione, agli utenti viene richiesto di specificare il propr
 
 ## Stages
 Di seguito vengono elencate le fasi che sono state implementate per lo svolgimento dell'assignment:
-\begin{enumerate}
-    \item \textbf{Build}
-    \item \textbf{Verify}
-    \item \textbf{Unit-test}
-    \item \textbf{Integration-test}
-    \item \textbf{Package}
-    \item \textbf{Release}
-    \item \textbf{Docs}
-\end{enumerate}
+    
+- Build
+- Verify
+- Unit-test
+- Integration-test
+- Package
+- Release
+- Docs
 
 ### Prerequisiti
 In questa sezione, vengono spiegati alcuni prerequisiti che vengono eseguiti prima dell'avvio dello script con le fasi elencate in precedenza:
