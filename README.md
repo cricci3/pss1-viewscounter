@@ -159,3 +159,5 @@ Per farlo sono necessarie diverse azioni che dividiamo in tre gruppi.
 2. **Preparazione dei file generati**: `mkdir .public` crea una directory chiamata ".public". in cui successivamente con `cp -r public/* .public` viene copiato ricorsivamente (`-r`) tutto il contenuto della directory "public". Questo passaggio serve a preparare i file della documentazione generata.
 
 3. **Archiviazione degli Artefatti**: nella sezione degli artifacts, vengono specificati i file o le directory che devono essere conservati per un uso futuro. Viene specificato di conservare il file _mkdocs.yaml_, che è il file di configurazione principale di MkDocs contenente le impostazioni e le informazioni necessarie per generare la documentazione. E anche la directory "public" contenente la documentazione appena generata.
+
+Una volta finita l'esecuzione di questo stage, la documentazione aggiornata è consultabile al seguente link: https://prova-bicoccaprojects-41fbc084054de9fcac016aa766e308b22287d4b35.gitlab.io/
