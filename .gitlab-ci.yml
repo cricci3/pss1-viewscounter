@@ -90,7 +90,7 @@ pages:
     - mkdir .public #crea la directory nascosta ".public"
     - cp -r public/* .public #copia il contenuto della cartella public in .public
   artifacts:
-    paths:
+    paths: #indica i percorsi per le directory dei file di output della pipeline
       - public
       - mkdocs.yaml
   only: # Esegui questa fase solo quando si fa push su main
