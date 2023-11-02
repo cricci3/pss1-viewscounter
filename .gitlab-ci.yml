@@ -71,7 +71,7 @@ package:
     paths:
       - dist/  # Archivia i pacchetti creati
   only:
-    - main
+    - main  #istruzione che indica che i comandi vengano eseguiti solo se si è sul branch main
 
 release:
   stage: release
