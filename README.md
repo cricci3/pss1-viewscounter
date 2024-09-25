@@ -3,10 +3,7 @@
 ## Git URL
 https://gitlab.com/bicoccaprojects/2023_assignment1_viewscounter
 
-## Membri Gruppo CED
-- Ficara Damiano (919386)
-- Ricci Claudio (918956)
-- Toli Emilio (920337)
+
 
 ## Note
 Questo README ha lo scopo di fornire una documentazione completa delle decisioni prese durante lo sviluppo della pipeline, spaziando attraverso tutte le sue fasi: Build, Verify, Unit-test, Integration-test, Package, Release e Docs.
